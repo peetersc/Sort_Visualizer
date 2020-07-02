@@ -1,4 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## Sort Visualizer
 Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. Our goal is to implement a working website that demonstrates visually how different sorting algorithms work with code along side animations. This project is developed using agile SCRUM practices over the course of 5 weeks.
 
@@ -11,6 +10,8 @@ Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. O
 
 **Current Link:** https://distracted-mirzakhani-5bceaf.netlify.app/
 
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## Available Scripts
 
 In the project directory, you can run:
