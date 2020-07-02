@@ -1,5 +1,11 @@
 import React from 'react';
 import './Sorting.css'
+
+import P5Wrapper from 'react-p5-wrapper'
+import sketch from './sketch'
+import sketch2 from './sketch2'
+
+import { ThemeContext } from 'styled-components';
 import {
   BrowserView,
   MobileView,
@@ -12,14 +18,18 @@ let NUMBER_OF_ARRAY_BARS = 90;
 
 const PRIMARY_COLOR = 'black';
 
+
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      array: [],
+      stateSketch:sketch,
     };
   }
+
+  resetArray(){
+    this.state.stateSketch===sketch ? this.setState({stateSketch:sketch2}):this.setState({stateSketch:sketch});
 
   componentDidMount() {
     this.resetArray();
@@ -34,12 +44,16 @@ export default class SortingVisualizer extends React.Component {
       array.push(randIntInInterval(10, 500));
     }
     this.setState({array});
+
   }
 
    render() {
-    const {array} = this.state;
-
     return (
+
+      <div>
+          <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
+           <button onClick={() => this.resetArray()}>Generate New Array</button>
+
       <div className="array-container">
         
         <button onClick={() => this.resetArray()}>Generate New Array</button>
@@ -56,14 +70,10 @@ export default class SortingVisualizer extends React.Component {
 
             </div>
         ))}
-
       </div>
     );
   }
 }
 
-function randIntInInterval(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 
