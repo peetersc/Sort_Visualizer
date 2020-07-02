@@ -7,6 +7,11 @@ const Styles = styled.div`
     color: #262626;
     border: none;
   }
+
+  .footer{
+    height: 50px;
+
+  }
 `;
 
 const Button = styled.button`
@@ -65,8 +70,12 @@ function Home(){
 
                 <div className="mainbox">
                   <h1>{items[id].value + " Sort"}</h1>
-                  <p>Lorem .... Draw rectangles here</p>
-                  <SortingView/>
+                  <div>
+                    <SortingView/>
+                  </div>     
+                  <div className="footer">
+
+                  </div>
                 </div>
             </Styles>
         </div>
