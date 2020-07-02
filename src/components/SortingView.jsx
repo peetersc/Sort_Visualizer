@@ -1,25 +1,53 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from 'react';
+import './Sorting.css'
 
-const Styles = styled.div`
-    height: 100vh;
-    background-color: #262626;
-    border-color: #ccc;
-    border-radius: 5px;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.09) !important;
+const NUMBER_OF_ARRAY_BARS = 300;
 
+const PRIMARY_COLOR = 'black';
 
-`;
+export default class SortingVisualizer extends React.Component {
+  constructor(props) {
+    super(props);
 
-function SortingView(){
+    this.state = {
+      array: [],
+    };
+  }
+
+  componentDidMount() {
+    this.resetArray();
+  }
+
+  resetArray() {
+    const array = [];
+    for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
+      array.push(randIntInInterval(10, 500));
+    }
+    this.setState({array});
+  }
+
+   render() {
+    const {array} = this.state;
+
     return (
-        <Styles>
-            <div className="">
-            </div>
-        </Styles>
+      <div className="array-container">
+        {array.map((value, idx) => (
+          <div
+            className="array-bar"
+            key={idx}
+            style={{
+              backgroundColor: PRIMARY_COLOR,
+              height: `${value}px`,
+            }}></div>
+        ))}
+         <button onClick={() => this.resetArray()}>Generate New Array</button>
+      </div>
     );
+  }
 }
 
-export default SortingView;
+function randIntInInterval(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
