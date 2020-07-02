@@ -1,5 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+## Sort Visualizer
 **Current Link:** https://distracted-mirzakhani-5bceaf.netlify.app/
 
 ## Available Scripts
