@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import SortingView from './components/SortingView';
-import sketch from './components/sketch';
-import sketch2 from './components/sketch2';
+import { sortArray } from './components/sketch'
 const Styles = styled.div`
   .mainbox{
     color: #262626;
@@ -66,7 +65,7 @@ const items = [
   }
 ];
 
-function sort(id, sortArray) {
+function sort(id) {
 
   {/*If id == 0*/}
   function bubbleSort() {
@@ -129,6 +128,10 @@ function sort(id, sortArray) {
 
 }
 
+// function Update(){
+
+// }
+
 function Home(){
     let id = 0;
     return (
@@ -141,7 +144,7 @@ function Home(){
                 <Button primary onClick={() => id=2}>Merge</Button>
                 <Button primary onClick={() => id=3}>Heap</Button>
                 <Button primary onClick={() => id=4}>Selection</Button>
-                <BeginButton primary>Begin Sort</BeginButton>  {/*onClick={() => sort(id)}*/}
+                <BeginButton primary onClick={() => sort(id)}>Begin Sort</BeginButton>
               </div>
 
                 <div className="mainbox">
