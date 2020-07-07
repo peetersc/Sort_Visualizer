@@ -16,7 +16,11 @@ Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. O
   * p5js: npm install react-p5-wrapper --save
   * Router: npm install --save react-router-dom
   
-## Commands
-  * npm start
+## Run Locally
+  1. Clone repository
+  2. Install npm and node
+  3. cd Sort_Visualizer
+  4. npm start
+  5. Open localhost:3000 in browser
   
 
