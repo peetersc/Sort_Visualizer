@@ -13,8 +13,9 @@ Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. O
 * Luciano Ornellana
 
 ## Librarys
-  * p5js: npm install react-p5-wrapper --save
-  * Router: npm install --save react-router-dom
+  * **p5js:** `npm install react-p5-wrapper --save`
+  * **Router:** `npm install --save react-router-dom`
+  * **yarn:** `npm i yarn`
   
 ## Run Locally
   1. Clone repository
