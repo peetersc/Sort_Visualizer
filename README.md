@@ -18,9 +18,9 @@ Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. O
   
 ## Run Locally
   1. Clone repository
-  2. Install npm and node
-  3. cd Sort_Visualizer
-  4. npm start
-  5. Open localhost:3000 in browser
+  2. Install `npm` and `node`
+  3. cd `Sort_Visualizer`
+  4. `npm start`
+  5. Open `localhost:3000` in browser
   
 
