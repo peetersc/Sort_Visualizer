@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import styled from 'styled-components';
 import SortingView from './components/SortingView';
 import { sortArray } from './components/sketch'
@@ -42,31 +42,37 @@ const BeginButton = styled.button`
   border: 2px solid mediumseagreen;
   border-radius: 3px;
 `;
+
 const items = [
   {
     id: 0,
     value: 'Bubble',
+    active: true
   },
   {
     id: 1,
     value: 'Quick',
+    active: false
   },
   {
     id: 2,
     value: 'Merge',
+    active: false
   },
   {
     id: 3,
     value: 'Heap',
+    active: false
   },
   {
     id: 4,
     value: 'Selection',
+    active: false
   }
 ];
 
 function sort(id) {
-
+  console.log(items[id].value + " Sort")
   {/*If id == 0*/}
   function bubbleSort() {
       var swapped;
@@ -128,28 +134,85 @@ function sort(id) {
 
 }
 
+export default class Home extends React.Component {
+
+  state = {
+      id: 0,
+      value: items[0].value + " Sort" 
+  };
+
+  changeID = (_id) =>{
+    console.log(_id);
+
+    this.setState({
+      id: _id,
+      value: items[_id].value + " Sort"
+    })
+
+    for (var i = 0; i < items.length; ++i){
+      items[i].active = false;
+      console.log(items[i].value + ": " + items[i].active)
+    }
+
+    items[_id].active = true;
+    console.log(items[_id].value + ": " + items[_id].active)
+
+  }
+  render() {
+    return (
+        <div>
+          <input type="number" placeholder="Size" min="10" max="100"></input>
+          <Button primary onClick={() => this.changeID(0)}>Bubble</Button>
+          <Button primary onClick={() => this.changeID(1)}>Quick</Button>
+          <Button primary onClick={() => this.changeID(2)}>Merge</Button>
+          <Button primary onClick={() => this.changeID(3)}>Heap</Button>
+          <Button primary onClick={() => this.changeID(4)}>Selection</Button>
+          <BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>
+          <h1>{this.state.value}</h1>
+          <SortingView/>
+      </div>
+    );
+  }
+}
 // function Update(){
 
 // }
-
+/*
 function Home(){
-    let id = 0;
+  let id = 0;
+  let sortType = items[id].value +  " Sort";
+
+  function changeID(_id) {
+    console.log(_id);
+
+    id = _id;
+    sortType = items[_id].value + " Sort";
+
+    for (var i = 0; i < items.length; ++i){
+      items[i].active = false;
+      console.log(items[i].value + ": " + items[i].active)
+    }
+
+    items[_id].active = true;
+    console.log(items[_id].value + ": " + items[_id].active)
+
+  }
     return (
         <div className="container">  
             <Styles>
               <div>
               <input type="number" placeholder="Size" min="10" max="100"></input>
-                <Button primary onClick={() => id=0}>Bubble</Button>
-                <Button primary onClick={() => id=1}>Quick</Button>
-                <Button primary onClick={() => id=2}>Merge</Button>
-                <Button primary onClick={() => id=3}>Heap</Button>
-                <Button primary onClick={() => id=4}>Selection</Button>
+                <Button primary onClick={() => changeID(0)}>Bubble</Button>
+                <Button primary onClick={() => changeID(1)}>Quick</Button>
+                <Button primary onClick={() => changeID(2)}>Merge</Button>
+                <Button primary onClick={() => changeID(3)}>Heap</Button>
+                <Button primary onClick={() => changeID(4)}>Selection</Button>
                 <BeginButton primary onClick={() => sort(id)}>Begin Sort</BeginButton>
               </div>
 
                 <div className="mainbox">
-                  {/*make it update after ID gets changed*/}
-                  <h1>{items[id].value + " Sort"} {console.log(id)}</h1>
+                  {}
+                  <h1 onChange={() => changeID(id)}> {sortType} {console.log(id)}</h1>
                   <div>
                     <SortingView/>
                   </div>
@@ -162,4 +225,6 @@ function Home(){
     );
 }
 
-export default Home;
+
+
+export default Home;*/

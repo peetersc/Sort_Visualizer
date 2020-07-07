@@ -2,9 +2,6 @@ import React from 'react'
 
 export const Contact = () => (
     <div>
-        <h1>Hello Contact</h1>
-        <p>
-            lorem
-        </p>
+        <h1>Contact</h1>
     </div>
 )

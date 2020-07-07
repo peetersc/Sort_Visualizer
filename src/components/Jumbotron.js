@@ -31,7 +31,6 @@ export const Jumbotron = () => (
             <div className="overlay"></div>
             <Container>
                 <h1>Sort Visualizer</h1>
-                <p>Details about Sort Visualizer here or we can delete this all together.....</p>
             </Container>
         </Jumbo>
     </Styles>
