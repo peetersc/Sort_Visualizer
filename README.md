@@ -1,5 +1,5 @@
 ## Sort Visualizer
-Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. Our goal is to implement a working website that demonstrates visually how different sorting algorithms work with code along side animations. This project is developed using agile SCRUM practices over the course of 5 weeks.
+Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. Our goal is to implement a working website that demonstrates visually how different sorting algorithms work with code along side animations. This project is developed using agile SCRUM practices over the course of 5 weeks with React.js.
 
 **Current Link:** https://distracted-mirzakhani-5bceaf.netlify.app/
 
@@ -10,6 +10,7 @@ Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. O
 * Alex Lee
 * Julian Shalaby
 * Cameron Peeters
+* Luciano Ornellana
 
 ## Librarys
   * p5js: npm install react-p5-wrapper --save
