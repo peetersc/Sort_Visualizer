@@ -175,7 +175,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    //Creates buttons based off the number of different sorts
+    //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
     for (const[index, value] of sortType.entries()){
       Buttons.push(
@@ -185,12 +185,13 @@ export default class Home extends React.Component {
         </Button>
       )
     }
+    Buttons.push(<BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>)
+
     return (
       <Styles>
         <div>
           <input type="number" placeholder="Size" min="10" max="100"></input>
           {Buttons}
-          <BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>
           <h1>{this.state.value}</h1>
           <SortingView/>
         </div>
