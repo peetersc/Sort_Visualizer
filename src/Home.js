@@ -180,7 +180,7 @@ export default class Home extends React.Component {
     for (const[index, value] of sortType.entries()){
       Buttons.push(
         <Button  onClick={() => this.changeState(index)} 
-                 className={this.state.id == sortType[index].id ? "Button on" : " off"}>
+                 className={this.state.id === sortType[index].id ? "Button on" : " off"}>
           {sortType[index].value}
         </Button>
       )

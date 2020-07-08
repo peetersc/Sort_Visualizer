@@ -1,6 +1,6 @@
 let sortArray =[]
 export {sortArray};
-export default function sketch (p){
+export default function quickSketch (p){
     //FOR EVERY SINGLE p5 FUNCTION U GOTTA do p.FUNCTIONNAME = function (){
     //and to call any p5 function u gotta do p.draw() or p.size()
     

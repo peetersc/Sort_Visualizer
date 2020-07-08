@@ -14,7 +14,7 @@ export default class SortingVisualizer extends React.Component {
       stateSketch:sketch,
     };
   }
-  resetArray(){
+  changeSketch(){
     this.state.stateSketch===sketch ? this.setState({stateSketch:sketch2}):this.setState({stateSketch:sketch});
   }
 
@@ -22,7 +22,7 @@ export default class SortingVisualizer extends React.Component {
     return (
       <div>
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
-           <button onClick={() => this.resetArray()}>Generate New Array</button>
+           <button onClick={() => this.changeSketch()}>Change sketch</button>
       </div>
     );
   }
