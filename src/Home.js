@@ -175,15 +175,21 @@ export default class Home extends React.Component {
   }
 
   render() {
+    //Creates buttons based off the number of different sorts
+    const Buttons = []
+    for (const[index, value] of sortType.entries()){
+      Buttons.push(
+        <Button  onClick={() => this.changeState(index)} 
+                 className={this.state.id == sortType[index].id ? "Button on" : " off"}>
+          {sortType[index].value}
+        </Button>
+      )
+    }
     return (
       <Styles>
         <div>
           <input type="number" placeholder="Size" min="10" max="100"></input>
-          <Button primary onClick={() => this.changeState(0)} className={this.state.id == sortType[0].id ? "Button on" : " off"}>Bubble</Button>
-          <Button primary onClick={() => this.changeState(1)} className={this.state.id == sortType[1].id ? "Button on" : " off"}>Quick</Button>
-          <Button primary onClick={() => this.changeState(2)} className={this.state.id == sortType[2].id ? "Button on" : " off"}>Merge</Button>
-          <Button primary onClick={() => this.changeState(3)} className={this.state.id == sortType[3].id ? "Button on" : " off"}>Heap</Button>
-          <Button primary onClick={() => this.changeState(4)} className={this.state.id == sortType[4].id ? "Button on" : " off"}>Selection</Button>
+          {Buttons}
           <BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>
           <h1>{this.state.value}</h1>
           <SortingView/>
