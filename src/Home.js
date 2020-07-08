@@ -1,3 +1,9 @@
+/*
+  Home.js: Main landing page
+  Cameron: Responsible for GUI -- Header(Jumbotron), Buttons, Styles
+  Last Updated: 7/7/20 @ 8:00pm by Cameron
+*/
+
 import React, {Component, useState} from 'react'
 import styled from 'styled-components';
 import SortingView from './components/SortingView';
@@ -26,24 +32,17 @@ const Styles = styled.div`
 `;
 
 const Button = styled.button`
-  background: ${props => props.primary ? "burlywood" : "white"};
-  color: ${props => props.primary ? "white" : "palevioletred"};
+  background: burlywood;
+  color: white;
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
   border: 2px solid burlywood;
   border-radius: 3px;
 
-  &:active{
-    background: ${props => props.primary ? "teal" : "white"} !important;
-  }
   &:hover{
-    background: ${props => props.primary ? "skyblue" : "white"} !important;
+    background: skyblue !important;
     border: 2px solid skyblue;
-  }
-
-  .on{
-    background: ${props => props.primary ? "teal" : "white"} !important;
   }
 `;
 
@@ -58,7 +57,7 @@ const BeginButton = styled.button`
   border-radius: 3px;
 `;
 
-const items = [
+const sortType = [
   {
     id: 0,
     value: 'Bubble',
@@ -87,7 +86,6 @@ const items = [
 ];
 
 function sort(id) {
-  console.log(items[id].value + " Sort")
   {/*If id == 0*/}
   function bubbleSort() {
       var swapped;
@@ -150,29 +148,30 @@ function sort(id) {
 }
 
 export default class Home extends React.Component {
-
-
+  //Holds the state of the current page to be shown
   state = {
       id: 0,
-      value: items[0].value + " Sort",
+      value: sortType[0].value + " Sort",
       isActive: false,
   };
 
-  changeID = (_id) =>{
-    console.log(_id);
+  //Changes the current state of the page to the active button clicked
+  changeState = (_id) =>{
 
-    for (var i = 0; i < items.length; ++i){
-      items[i].active = false;
+    //Ensures that only the correct sortType is active
+    for (var i = 0; i < sortType.length; ++i){
+      sortType[i].active = false;
       if (i === _id){
-        items[_id].active = true;
+        sortType[_id].active = true;
       }
-
-      this.setState({
-        id: _id,
-        value: items[_id].value + " Sort",
-        isActive: items[_id].active,
-      })
     }
+
+    //Ensures that only the correct button/state of the page is active
+    this.setState({
+      id: _id,
+      value: sortType[_id].value + " Sort",
+      isActive: sortType[_id].active,
+    })
   }
 
   render() {
@@ -180,11 +179,11 @@ export default class Home extends React.Component {
       <Styles>
         <div>
           <input type="number" placeholder="Size" min="10" max="100"></input>
-          <Button primary onClick={() => this.changeID(0)} className={this.state.id == 0 ? "Button on" : " off"}>Bubble</Button>
-          <Button primary onClick={() => this.changeID(1)} className={this.state.id == 1 ? "Button on" : " off"}>Quick</Button>
-          <Button primary onClick={() => this.changeID(2)} className={this.state.id == 2 ? "Button on" : " off"}>Merge</Button>
-          <Button primary onClick={() => this.changeID(3)} className={this.state.id == 3 ? "Button on" : " off"}>Heap</Button>
-          <Button primary onClick={() => this.changeID(4)} className={this.state.id == 4 ? "Button on" : " off"}>Selection</Button>
+          <Button primary onClick={() => this.changeState(0)} className={this.state.id == sortType[0].id ? "Button on" : " off"}>Bubble</Button>
+          <Button primary onClick={() => this.changeState(1)} className={this.state.id == sortType[1].id ? "Button on" : " off"}>Quick</Button>
+          <Button primary onClick={() => this.changeState(2)} className={this.state.id == sortType[2].id ? "Button on" : " off"}>Merge</Button>
+          <Button primary onClick={() => this.changeState(3)} className={this.state.id == sortType[3].id ? "Button on" : " off"}>Heap</Button>
+          <Button primary onClick={() => this.changeState(4)} className={this.state.id == sortType[4].id ? "Button on" : " off"}>Selection</Button>
           <BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>
           <h1>{this.state.value}</h1>
           <SortingView/>
