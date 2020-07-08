@@ -1,16 +1,27 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import styled from 'styled-components';
 import SortingView from './components/SortingView';
 import { sortArray } from './components/sketch'
+
 const Styles = styled.div`
-  .mainbox{
-    color: #262626;
-    border: none;
+  .off{
+    background: burlywood;
+    color: black;
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid burlywood;
+    border-radius: 3px;  
   }
-
-  .footer{
-    height: 50px;
-
+  
+  .on{
+    background: teal;
+    color: white;
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid teal;
+    border-radius: 3px;  
   }
 `;
 
@@ -29,6 +40,10 @@ const Button = styled.button`
   &:hover{
     background: ${props => props.primary ? "skyblue" : "white"} !important;
     border: 2px solid skyblue;
+  }
+
+  .on{
+    background: ${props => props.primary ? "teal" : "white"} !important;
   }
 `;
 
@@ -136,41 +151,45 @@ function sort(id) {
 
 export default class Home extends React.Component {
 
+
   state = {
       id: 0,
-      value: items[0].value + " Sort" 
+      value: items[0].value + " Sort",
+      isActive: false,
   };
 
   changeID = (_id) =>{
     console.log(_id);
 
-    this.setState({
-      id: _id,
-      value: items[_id].value + " Sort"
-    })
-
     for (var i = 0; i < items.length; ++i){
       items[i].active = false;
-      console.log(items[i].value + ": " + items[i].active)
+      if (i === _id){
+        items[_id].active = true;
+      }
+
+      this.setState({
+        id: _id,
+        value: items[_id].value + " Sort",
+        isActive: items[_id].active,
+      })
     }
-
-    items[_id].active = true;
-    console.log(items[_id].value + ": " + items[_id].active)
-
   }
+
   render() {
     return (
+      <Styles>
         <div>
           <input type="number" placeholder="Size" min="10" max="100"></input>
-          <Button primary onClick={() => this.changeID(0)}>Bubble</Button>
-          <Button primary onClick={() => this.changeID(1)}>Quick</Button>
-          <Button primary onClick={() => this.changeID(2)}>Merge</Button>
-          <Button primary onClick={() => this.changeID(3)}>Heap</Button>
-          <Button primary onClick={() => this.changeID(4)}>Selection</Button>
+          <Button primary onClick={() => this.changeID(0)} className={this.state.id == 0 ? "Button on" : " off"}>Bubble</Button>
+          <Button primary onClick={() => this.changeID(1)} className={this.state.id == 1 ? "Button on" : " off"}>Quick</Button>
+          <Button primary onClick={() => this.changeID(2)} className={this.state.id == 2 ? "Button on" : " off"}>Merge</Button>
+          <Button primary onClick={() => this.changeID(3)} className={this.state.id == 3 ? "Button on" : " off"}>Heap</Button>
+          <Button primary onClick={() => this.changeID(4)} className={this.state.id == 4 ? "Button on" : " off"}>Selection</Button>
           <BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>
           <h1>{this.state.value}</h1>
           <SortingView/>
-      </div>
+        </div>
+      </Styles>
     );
   }
 }
