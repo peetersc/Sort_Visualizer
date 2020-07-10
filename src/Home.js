@@ -14,7 +14,7 @@ let beginSort= {
     active: false,
     isPressed: false,
 };
-let arraySize = 30;
+let arraySize = 300;
 export{beginSort,arraySize};
 const Styles = styled.div`
   .off{
@@ -163,7 +163,6 @@ export default class Home extends React.Component {
       value: sortType[0].value + " Sort",
       isActive: false,
       stateSketch:sketch,
-      loop: false,
   };
   
   //Changes the current state of the page to the active button clicked
@@ -184,7 +183,9 @@ export default class Home extends React.Component {
     
     beginSort.isPressed=true;
   }
-
+  changeSlider= (value) =>{
+    arraySize=value;
+  }
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
@@ -201,8 +202,9 @@ export default class Home extends React.Component {
     return (
       <Styles>
         <div>
-          <input type="number" placeholder="Size" min="10" max="1000"></input>
+          
           {Buttons}
+          <input type="range" min="10" max="300" value={arraySize} ></input>
           <h1>{this.state.value}</h1>
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
         </div>

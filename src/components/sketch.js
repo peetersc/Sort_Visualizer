@@ -48,28 +48,47 @@ export default function sortingSketch (p){
             if(sortType.find(elem=>elem.active ===true).id===1)
             {
                 quickSort(sortArray,0,arraySize-1);            
-                
+                beginSort.active=false;
+
             }
             if(sortType.find(elem=>elem.active ===true).id===4)
             {
                 selectionSort(sortArray);
             }
-            beginSort.active=false;
         }
         for (let i = 0; i < arraySize; i++) { //drawing every rectangle from index 0 to last index
-            if (arrayColor[i] === 0) {
-                p.fill(255, 0, 0); //red
-                arrayColor[i]=-1;
-            } else if (arrayColor[i] === 1) {
-                p.fill(100, 200, 50);//green
-            } else {
+            if (arrayColor[i] === -1){
                 p.fill('grey');
             }
+            if (arrayColor[i] === 0) {
+                arrayColor[i]=-1;
+                p.fill(255, 0, 0); //red
+            }
+            if (arrayColor[i] === 1) {
+                p.fill(100, 200, 50);//green
+            }
+            
             p.rect(i*barWidth, 0, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
         }
     }
-    async function bubbleSort(arr){
-        
+    function bubbleSort(arr){
+        if (sortArray[j]>sortArray[j+1]){
+            swap(sortArray,j,j+1);
+            arrayColor[j+1]=0;
+        }
+        if(i<sortArray.length){
+            j++;
+            if(j>=sortArray.length-1-i){
+                arrayColor[j]=1;
+                j=0;
+                i++;
+            }
+        }else{
+            arrayColor[0]=1;
+            i=0;
+            j=0;
+            beginSort.active=false;
+        }
     }
 
       async function quickSort(arr, start, end) {
@@ -93,27 +112,31 @@ export default function sortingSketch (p){
         arrayColor[pivotIndex] = 0;
         for (let i = start; i < end; i++) {
             if (arr[i] < pivotValue) {
-                await swap(arr, i, pivotIndex)
+                await swapS(arr, i, pivotIndex)
                 arrayColor[pivotIndex] = -1;
                 pivotIndex++;
                 arrayColor[pivotIndex] = 0;
             }
         }
-        await swap(arr, pivotIndex, end);
+        await swapS(arr, pivotIndex, end);
         for (let i = start; i < end; i++) {
-            arrayColor[i] = -1;
+            //arrayColor[i] = -1;
         }
     
         return pivotIndex;
     }
     
-    async function swap(arr, a, b) {
-        await sleep(200)
+    async function swapS(arr, a, b) {
+        await sleep(20)
         let temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
     }
-    
+    function swap(arr, a, b) {
+        let temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
