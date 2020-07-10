@@ -1,19 +1,20 @@
 /*
   Home.js: Main landing page
   Cameron: Responsible for GUI -- Header(Jumbotron), Buttons, Styles, Pseudocode
-  Last Updated: 7/7/20 @ 8:00pm by Cameron
+  Last Updated: 7/10/20 @ 3:00pm by Cameron
 */
-
 import React, {Component, useState} from 'react'
 import styled from 'styled-components';
 import P5Wrapper from 'react-p5-wrapper'
 import sketch from './components/sketch'
+
 let beginSort= {
     active: false,
     isPressed: false,
 };
 let arraySize = 50;
 export{beginSort,arraySize};
+
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -66,6 +67,7 @@ const BeginButton = styled.button`
   border-radius: 3px;
 `;
 
+// SortType holds all data stored for each sortType
 export const sortType = [
   {
     id: 0,
@@ -136,6 +138,8 @@ export const sortType = [
                 "end SelectionSort\n"]
   }
 ];
+
+
 function sort(id) {
  beginSort.active=true;
  beginSort.isPressed=true;
@@ -153,6 +157,7 @@ export default class Home extends React.Component {
   
   //Changes the current state of the page to the active button clicked
   changeState = (_id) =>{
+
     //Switches active state to false and finds current id adn sets active
     sortType.find(x => x.active === true).active = false;
     sortType.find(x => x.id === _id).active = true;
@@ -165,11 +170,13 @@ export default class Home extends React.Component {
     })
     beginSort.isPressed=true;
   }
+
   changeSlider= (value) =>{
     arraySize=value;
     let iterator;
     iterator.next();
   }
+
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
@@ -183,6 +190,7 @@ export default class Home extends React.Component {
     }
     Buttons.push(<BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>)
 
+    // Creates area for Pseudocode to be displayed
     const Pseudocode = []
     for (const[index, value] of sortType.entries()){
       Pseudocode.push(
