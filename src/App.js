@@ -7,8 +7,7 @@ import {Contact} from './Contact';
 import {NoMatch} from './NoMatch';
 import Layout from './components/Layout';
 import {Jumbotron} from './components/Jumbotron';
-
-
+import {sortType} from './Home'
 class App extends Component{
 
   render(){
@@ -29,6 +28,7 @@ class App extends Component{
     );
   }
 }
+
 
 export default App;
 

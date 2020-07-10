@@ -8,7 +8,10 @@ import React, {Component, useState} from 'react'
 import styled from 'styled-components';
 import SortingView from './components/SortingView';
 import { sortArray } from './components/sketch'
-
+import P5Wrapper from 'react-p5-wrapper'
+import sketch from './components/sketch'
+let sortID=0;
+export {sortID};
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -84,9 +87,10 @@ const sortType = [
     active: false
   }
 ];
-
 function sort(id) {
+ 
   {/*If id == 0*/}
+  /*
   function bubbleSort() {
       var swapped;
       do {
@@ -102,7 +106,7 @@ function sort(id) {
       } while (swapped);
   }
 
-  {/*If id == 1*/}
+  
   function quicksort() {
       if (sortArray.length <= 1) {
       return sortArray;
@@ -120,7 +124,7 @@ function sort(id) {
       return quicksort(left).concat(pivot, quicksort(right));
   };
 
-  {/*If id == 4*/}
+  
   function selectionSort(){
       for (let i = 0; i < sortArray.length; i++){
           let indexOfMin = i // set index of min to the 
@@ -144,7 +148,7 @@ function sort(id) {
           }
       }
   }
-
+*/
 }
 
 export default class Home extends React.Component {
@@ -153,6 +157,7 @@ export default class Home extends React.Component {
       id: 0,
       value: sortType[0].value + " Sort",
       isActive: false,
+      stateSketch:sketch,
   };
 
   //Changes the current state of the page to the active button clicked
@@ -163,7 +168,7 @@ export default class Home extends React.Component {
       sortType[i].active = false;
       if (i === _id){
         sortType[_id].active = true;
-      }
+        }
     }
 
     //Ensures that only the correct button/state of the page is active
@@ -193,6 +198,7 @@ export default class Home extends React.Component {
           <input type="number" placeholder="Size" min="10" max="100"></input>
           {Buttons}
           <h1>{this.state.value}</h1>
+          <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
           <SortingView/>
         </div>
       </Styles>
