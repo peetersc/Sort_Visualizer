@@ -1,17 +1,20 @@
+
 /*
   sketch.js: Main sorting animation view
   Alex: Responsible for animation
   Last Updated: 7/9/20 @ 4:00pm by Alex
 */
 import {sortType,beginSort,arraySize} from '../Home'
+
 export default function sortingSketch (p){
     const height = 300
     const width = 800
     let barWidth = width / (arraySize);
-    let i=0;
-    let j=0;
     let sortArray =[];
     let arrayColor=[];
+    let iterator;
+    let paused;
+    let piv;
     p.setup =function (){
         p.createCanvas(width,height);
         resetArray();
@@ -21,8 +24,16 @@ export default function sortingSketch (p){
         arrayColor=new Array(arraySize);
         for (let i = 0; i < sortArray.length; i++) {
             sortArray[i]=p.random(height);
-            arrayColor[i]=-1;
+            //arrayColor[i]=-1;
+            arrayColor[i]='grey';
         }
+        paused=false;            
+        iterator = tempGenerator();
+
+    }
+    function *tempGenerator(){
+        while(true)
+        yield;
     }
     p.draw =function (){
         // Scale and translate are done so that the origin is in the bottom left
@@ -31,113 +42,164 @@ export default function sortingSketch (p){
         p.scale(1,-1);
         p.translate(0, -height);
         p.background(255);
-        p.stroke(0);
+        p.stroke(0);    
         if(beginSort.isPressed)
         {
             resetArray();
-            beginSort.isPressed=false;
+            beginSort.isPressed=false;        
         }
         if (beginSort.active){
-
             if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
             {
-                bubbleSort(sortArray);
+                iterator = bubbleSort(sortArray);
             }
             else if(sortType.find(elem=>elem.active ===true).id===1)
             {
-                quickSort(sortArray,0,arraySize-1);      
-                beginSort.active=false;
+                iterator=quicksort(sortArray,0,arraySize);      
 
             }
+            else if(sortType.find(elem=>elem.active ===true).id===2)
+            {
+                iterator=mergeSort(sortArray,0,arraySize);
+            } 
+            else if(sortType.find(elem=>elem.active ===true).id===3)
+            {
+                iterator=insertionSort(sortArray);
+            } 
             else if(sortType.find(elem=>elem.active ===true).id===4)
             {
-                selectionSort(sortArray);
-            }
-        }
-        for (let i = 0; i < arraySize; i++) { //drawing every rectangle from index 0 to last index
-            if (arrayColor[i] === -1){
-                p.fill('grey');
-            }
-            if (arrayColor[i] === 0) {
-                arrayColor[i]=-1;
-                p.fill('red'); //red
-            }
-            if (arrayColor[i] === 1) {
-                p.fill('green');
-            }
-            if (arrayColor[i] === 2) {
-                p.fill('blue');
-            }
-            
-            p.rect(i*barWidth, 0, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
-        }
-    }
-    function bubbleSort(arr){
-        if (sortArray[j]>sortArray[j+1]){
-            swap(sortArray,j,j+1);
-            arrayColor[j+1]=0;
-        }
-        if(i<sortArray.length){
-            j++;
-            if(j>=sortArray.length-1-i){
-                //arrayColor[j]=1;
-                j=0;
-                i++;
-            }
-        }else{
-            arrayColor[0]=1;
-            i=0;
-            j=0;
+                iterator=selectionSort(sortArray);
+            }                
+               
             beginSort.active=false;
-        }
-    }
 
-      async function quickSort(arr, start, end) {
-        if (start >= end) {
-            return;
+        } 
+        if(!paused){
+             if(iterator.next().done)
+             {
+                for (let i = 0; i < arraySize; i++) {
+                    arrayColor[i]='green';
+                }
+             }
         }
-        let index = await partition(arr, start, end);
-        arrayColor[index] = -1;
-        await Promise.all([
-            quickSort(arr, start, index - 1),
-            quickSort(arr, index + 1, end)
-        ]);
+        
+       
+        for (let i = 0; i < arraySize; i++) {
+            p.fill(arrayColor[i]);
+            p.rect(i*barWidth, 0, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
+        }   
     }
-    
-    async function partition(arr, start, end) {
-        for (let i = start; i < end; i++) {
-            arrayColor[i] = 2;
-        }
-        let pivotIndex = start;
-        let pivotValue = arr[end];
-        arrayColor[pivotIndex] = 0;
-        for (let i = start; i < end; i++) {
-            if (arr[i] < pivotValue) {
-                await swapS(arr, i, pivotIndex)
-                arrayColor[pivotIndex] = -1;
-                pivotIndex++;
-                arrayColor[pivotIndex] = 0;
+    async function* bubbleSort() {
+        for (let i = sortArray.length-1; i > 0; i--) {
+            for (let j = 0; j < i; j++) {
+            arrayColor[j+1] = 'red';
+            yield;
+            arrayColor[j+1]='grey';
+              if (sortArray[j] > sortArray[j + 1]) {
+                swap(sortArray, j, j + 1);
+              }
             }
-        }
-        await swapS(arr, pivotIndex, end);
-        return pivotIndex;
+            arrayColor[i]='green';
+          }
+        arrayColor[0]='green';
     }
+    function * insertionSort() {
+        for (let i = 1; i < sortArray.length; ++i) {
+            let j = i - 1;
     
-    async function swapS(arr, a, b) {
-        await sleep(30)
-        let temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
+            while (j >= 0 && sortArray[j] > sortArray[i]) {
+              arrayColor[i] = 'red';
+              yield;
+              arrayColor[i] = 'grey';
+              swap(sortArray, i, j);
+              swap(arrayColor, i--, j--);
+            }
+          }
     }
+    function* partition(arr, low, high) {
+        var pivot = arr[high - 1];
+        piv = low;
+        for (let j = low; j < high; j++) {
+            arrayColor[low] = 'blue';
+            arrayColor[high - 1] = 'blue';
+            arrayColor[piv] = 'red';
+            arrayColor[j] = 'red';
+          yield;
+            arrayColor[piv]='grey'
+            arrayColor[j]='grey'
+          if (arr[j] < pivot) {
+            swap(arr, piv, j);
+            piv++
+          }
+        }
+        swap(arr, piv, high - 1)
+        arrayColor[piv] = 'green';
+      }
+      
+      function* quicksort(arr, low, high) {
+        if (low < high) {
+          yield* partition(arr, low, high)
+          yield* quicksort(arr, low, piv)
+          yield* quicksort(arr, piv + 1, high)
+        }
+      }
     function swap(arr, a, b) {
         let temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
     }
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    
+    function* selectionSort(){                              // min selection sort
+        for (let i = 0; i < sortArray.length; ++i) {        //traversing unsorted array
+            let min_index = i;                              //find minimum element in unsorted array
+            for (let j = i; j < sortArray.length; ++j) { 
+              arrayColor[j] = 'red';                        //current traversing index
+              arrayColor[min_index] = 'blue';               //current min index
+              yield;
+              arrayColor[j] = 'grey';                       //reset color
+              arrayColor[min_index] = 'grey';               //reset color
+              if (sortArray[j] < sortArray[min_index]) {    //comparison for smaller value
+                min_index = j;
+              }
+            }
+            // Swap with current element
+            if (min_index !== i) {
+              swap(sortArray, i, min_index);
+            }
+            // Current element is correctly sorted
+            arrayColor[i] = 'green';
+            yield ;
+          }
     }
-    function selectionSort(sortArray){
-        
+    function* merge(arr,low,middle,high){
+        /*let i = low;
+        let j = middle + 1;
+        while (i <= middle && j <= high) {
+          arrayColor[i] = 'red';
+          arrayColor[j] = 'red';
+          yield;
+          arrayColor[i] = 'grey';
+          arrayColor[j] = 'grey';
+          if (arr[i] > arr[j]) {
+            for (let k = i; k <= j; ++k) {
+              swap(arr, k, j);
+              swap(arr, k, j);
+            }
+            ++j;
+            ++middle;
+          }
+          ++i;
+        }*/ 
+        //shit doesnt work lol
     }
+    function* mergeSort(arr,low,high){
+        if(low<high){
+           let middle = ((low+high)/2);
+            yield mergeSort(arr,low,middle)
+            yield mergeSort(arr,middle+1,high);
+            yield merge(arr,low,middle,high);
+        }
+    }
+
+    
 }

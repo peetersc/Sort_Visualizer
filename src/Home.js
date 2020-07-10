@@ -6,15 +6,13 @@
 
 import React, {Component, useState} from 'react'
 import styled from 'styled-components';
-import SortingView from './components/SortingView';
-import { sortArray } from './components/sketch'
 import P5Wrapper from 'react-p5-wrapper'
 import sketch from './components/sketch'
 let beginSort= {
     active: false,
     isPressed: false,
 };
-let arraySize = 100;
+let arraySize = 50;
 export{beginSort,arraySize};
 const Styles = styled.div`
   .off{
@@ -82,7 +80,7 @@ export const sortType = [
   },
   {
     id: 3,
-    value: 'Heap',
+    value: 'Insertion',
     active: false
   },
   {
@@ -94,67 +92,8 @@ export const sortType = [
 function sort(id) {
  beginSort.active=true;
  beginSort.isPressed=true;
-  {/*If id == 0*/}
-  /*
-  function bubbleSort() {
-      var swapped;
-      do {
-          swapped = false;
-          for (var i=0; i < sortArray.length-1; i++) {
-              if (sortArray[i] > sortArray[i+1]) {
-                  var temp = sortArray[i];
-                  sortArray[i] = sortArray[i+1];
-                  sortArray[i+1] = temp;
-                  swapped = true;
-              }
-          }
-      } while (swapped);
-  }
+};
 
-  
-  function quicksort() {
-      if (sortArray.length <= 1) {
-      return sortArray;
-      }
-  
-      var pivot = sortArray[0];
-      
-      var left = []; 
-      var right = [];
-  
-      for (var i = 1; i < sortArray.length; i++) {
-          sortArray[i] < pivot ? left.push(sortArray[i]) : right.push(sortArray[i]);
-      }
-  
-      return quicksort(left).concat(pivot, quicksort(right));
-  };
-
-  
-  function selectionSort(){
-      for (let i = 0; i < sortArray.length; i++){
-          let indexOfMin = i // set index of min to the 
-          let j = i // set the index to run the while loop for calculating min
-          let min = sortArray[i] // set the initial value of minimum
-  
-          // find the minimum from i to end of array
-          while (j < sortArray.length){
-              if (sortArray[j] < min){
-                  min = sortArray[j]
-                  indexOfMin = j
-              }
-              j++
-          }
-  
-          if (indexOfMin !== i){ // only swap if the index of minimum and curr item is different
-              let tmp = sortArray[i]
-              sortArray[i] = sortArray[indexOfMin]
-              sortArray[indexOfMin] = tmp
-              console.log(sortArray)
-          }
-      }
-  }
-*/
-}
 
 export default class Home extends React.Component {
   //Holds the state of the current page to be shown
@@ -184,6 +123,8 @@ export default class Home extends React.Component {
   }
   changeSlider= (value) =>{
     arraySize=value;
+    let iterator;
+    iterator.next();
   }
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
