@@ -3,6 +3,8 @@
   Alex: Responsible for animation
   Last Updated: 7/9/20 @ 4:00pm by Alex
 */
+import {sortType} from '../Home'
+import {beginSort} from '../Home'
 let sortArray =[]
 export {sortArray};
 
@@ -10,7 +12,7 @@ export {sortArray};
 export default function sortingSketch (p){
     const height = 300
     const width = 800
-    let numBars = 50;
+    let numBars = 10;
     let barWidth = width / (numBars);
     let swapIndex=0;
     p.setup =function (){
@@ -36,13 +38,12 @@ export default function sortingSketch (p){
         p.background(255);
         p.stroke(0);
         let sortID=0;//want to import sortType from home.js
-        let beginSort=true;//want to import beginSort from home.js when you click the begin sort button
         if (beginSort){
-            if(sortID===0)//bubble sort
+            if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
             {
                 bubbleSort(sortArray);
             }
-            if(sortID===1)
+            if(0)
             {
                 quickSort(sortArray);
             }
@@ -78,9 +79,11 @@ export default function sortingSketch (p){
         }else{
             swapIndex=-2;
             p.noLoop();
+            //beginSort=false;
+            resetArray();
         }
     }
     function quickSort(sortArray){
-
+        
     }
 }

@@ -10,8 +10,7 @@ import SortingView from './components/SortingView';
 import { sortArray } from './components/sketch'
 import P5Wrapper from 'react-p5-wrapper'
 import sketch from './components/sketch'
-let sortID=0;
-export {sortID};
+export let beginSort = false;
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -60,7 +59,7 @@ const BeginButton = styled.button`
   border-radius: 3px;
 `;
 
-const sortType = [
+export const sortType = [
   {
     id: 0,
     value: 'Bubble',
@@ -88,6 +87,7 @@ const sortType = [
   }
 ];
 function sort(id) {
+ beginSort=true;
  
   {/*If id == 0*/}
   /*
@@ -177,6 +177,8 @@ export default class Home extends React.Component {
       value: sortType[_id].value + " Sort",
       isActive: sortType[_id].active,
     })
+    this.state.stateSketch === sketch ? this.setState({stateSketch:sketch}) : this.setState({stateSketch:sketch});
+
   }
 
   render() {
@@ -199,7 +201,6 @@ export default class Home extends React.Component {
           {Buttons}
           <h1>{this.state.value}</h1>
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
-          <SortingView/>
         </div>
       </Styles>
     );
