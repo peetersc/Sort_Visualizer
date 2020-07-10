@@ -1,6 +1,6 @@
 /*
   Home.js: Main landing page
-  Cameron: Responsible for GUI -- Header(Jumbotron), Buttons, Styles
+  Cameron: Responsible for GUI -- Header(Jumbotron), Buttons, Styles, Pseudocode
   Last Updated: 7/7/20 @ 8:00pm by Cameron
 */
 
@@ -34,6 +34,10 @@ const Styles = styled.div`
     border: 2px solid teal;
     border-radius: 3px;  
   }
+  .Pseudocode{
+    color: #efefef;
+    background: black;
+  }
 `;
 
 const Button = styled.button`
@@ -66,27 +70,70 @@ export const sortType = [
   {
     id: 0,
     value: 'Bubble',
-    active: true
+    active: true,
+    pseudocode: ["begin BubbleSort(list)\n",
+                 "\tfor all elements of list\n",
+                 "\t\tif list[i] > list[i+1]\n",
+                 "\t\t\tswap(list[i], list[i+1]\n",
+                 "\t\tend if\n",
+                 "\tend for\n",
+                 "\treturn list\n",
+                 "end BubbleSort"]
   },
   {
     id: 1,
     value: 'Quick',
-    active: false
+    active: false,
+    pseudocode: ["begin QuickSort(arr, low, high)\n",
+                "\tif(low < high)\n",
+                "\t\tpivot = partition(arr, low, high)\n",
+                "\t\tQuickSort(arr, low, pivot - 1)\n",
+                "\t\tQuickSort(arr, pivot + 1, high)\n",
+                "\tend if\n",
+                "end QuickSort"]
   },
   {
     id: 2,
     value: 'Merge',
-    active: false
+    active: false,
+    pseudocode: ["begin MergeSort(arr, left, right)\n",
+                "\tmiddle = (left+right)/2\n",
+                "\tMergeSort(arr, left, middle)\n",
+                "\tMergeSort(arr, middle + 1, right)\n",
+                "\tMerge(arr, middle + 1, right)\n",
+                "end MergeSort\n"]
   },
   {
     id: 3,
     value: 'Insertion',
-    active: false
+    active: false,
+    pseudocode:  ["begin InsertionSort(arr)\n",
+                "\tfor i = 1 in arr\n",
+                "\t\tkey = arr[i]\n",
+                "\t\tj = i - 1\n",
+                "\t\twhile j >= 0 and arr[j] > key\n",
+                "\t\t\tarr[j+1] = arr[j]\n",
+                "\t\t\tj = j - 1\n",
+                "\t\tend while\n",
+                "\t\tarr[j+1] = key\n",
+                "\tend for\n",
+                "end InsertionSort\n"]
   },
   {
     id: 4,
     value: 'Selection',
-    active: false
+    active: false,
+    pseudocode: ["begin SelectionSort(arr)\n",
+                "\tfor i in arr-1\n",
+                "\t\tmin = i\n",
+                "\t\tfor j = i+1 in arr\n",
+                "\t\t\tif arr[j] < arr[min]\n",
+                "\t\t\t\tmin = j\n",
+                "\t\t\tend if\n",
+                "\t\t\tswap(arr[min], arr[i])\n",
+                "\t\tend for\n",
+                "\tend for\n",
+                "end SelectionSort\n"]
   }
 ];
 function sort(id) {
@@ -106,13 +153,10 @@ export default class Home extends React.Component {
   
   //Changes the current state of the page to the active button clicked
   changeState = (_id) =>{
-    //Ensures that only the correct sortType is active
-    for (var i = 0; i < sortType.length; ++i){
-      sortType[i].active = false;
-      if (i === _id){
-        sortType[_id].active = true;
-        }
-    }
+    //Switches active state to false and finds current id adn sets active
+    sortType.find(x => x.active === true).active = false;
+    sortType.find(x => x.id === _id).active = true;
+
     //Ensures that only the correct button/state of the page is active
     this.setState({
       id: _id,
@@ -139,14 +183,26 @@ export default class Home extends React.Component {
     }
     Buttons.push(<BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>)
 
+    const Pseudocode = []
+    for (const[index, value] of sortType.entries()){
+      Pseudocode.push(
+      <div className="">
+      <p className="Pseudocode">Function: {sortType[index].value + "Sort()"}</p>
+      <pre className="Pseudocode">
+        <code>
+          {sortType[index].pseudocode}
+        </code>
+      </pre>
+    </div>)
+    }
+
     return (
       <Styles>
         <div>
-          
           {Buttons}
           <input type="range" min="10" max="300" value={arraySize} ></input>
-          <h1>{this.state.value}</h1>
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
+          {Pseudocode[this.state.id]}
         </div>
       </Styles>
     );

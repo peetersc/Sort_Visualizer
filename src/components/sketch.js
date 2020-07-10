@@ -8,7 +8,7 @@ import {sortType,beginSort,arraySize} from '../Home'
 
 export default function sortingSketch (p){
     const height = 300
-    const width = 800
+    const width = window.innerWidth / 1.307
     let barWidth = width / (arraySize);
     let sortArray =[];
     let arrayColor=[];
@@ -25,7 +25,7 @@ export default function sortingSketch (p){
         for (let i = 0; i < sortArray.length; i++) {
             sortArray[i]=p.random(height);
             //arrayColor[i]=-1;
-            arrayColor[i]='grey';
+            arrayColor[i]='floralwhite';
         }
         paused=false;            
         iterator = tempGenerator();
@@ -41,7 +41,7 @@ export default function sortingSketch (p){
         // bottom up instead of top down.
         p.scale(1,-1);
         p.translate(0, -height);
-        p.background(255);
+        p.background(38, 38, 38);
         p.stroke(0);    
         if(beginSort.isPressed)
         {
@@ -78,7 +78,7 @@ export default function sortingSketch (p){
              if(iterator.next().done)
              {
                 for (let i = 0; i < arraySize; i++) {
-                    arrayColor[i]='green';
+                    arrayColor[i]='DarkSeaGreen';
                 }
              }
         }
@@ -92,25 +92,25 @@ export default function sortingSketch (p){
     async function* bubbleSort() {
         for (let i = sortArray.length-1; i > 0; i--) {
             for (let j = 0; j < i; j++) {
-            arrayColor[j+1] = 'red';
+            arrayColor[j+1] = 'Maroon ';
             yield;
-            arrayColor[j+1]='grey';
+            arrayColor[j+1]='LightBlue ';
               if (sortArray[j] > sortArray[j + 1]) {
                 swap(sortArray, j, j + 1);
               }
             }
-            arrayColor[i]='green';
+            arrayColor[i]='DarkSeaGreen';
           }
-        arrayColor[0]='green';
+        arrayColor[0]='DarkSeaGreen';
     }
     function * insertionSort() {
         for (let i = 1; i < sortArray.length; ++i) {
             let j = i - 1;
     
             while (j >= 0 && sortArray[j] > sortArray[i]) {
-              arrayColor[i] = 'red';
+              arrayColor[i] = 'Maroon ';
               yield;
-              arrayColor[i] = 'grey';
+              arrayColor[i] = 'LightBlue ';
               swap(sortArray, i, j);
               swap(arrayColor, i--, j--);
             }
@@ -120,20 +120,20 @@ export default function sortingSketch (p){
         var pivot = arr[high - 1];
         piv = low;
         for (let j = low; j < high; j++) {
-            arrayColor[low] = 'blue';
-            arrayColor[high - 1] = 'blue';
-            arrayColor[piv] = 'red';
-            arrayColor[j] = 'red';
+            arrayColor[low] = 'RoyalBlue';
+            arrayColor[high - 1] = 'RoyalBlue';
+            arrayColor[piv] = 'Maroon ';
+            arrayColor[j] = 'Maroon ';
           yield;
-            arrayColor[piv]='grey'
-            arrayColor[j]='grey'
+            arrayColor[piv]='LightBlue '
+            arrayColor[j]='LightBlue '
           if (arr[j] < pivot) {
             swap(arr, piv, j);
             piv++
           }
         }
         swap(arr, piv, high - 1)
-        arrayColor[piv] = 'green';
+        arrayColor[piv] = 'DarkSeaGreen';
       }
       
       function* quicksort(arr, low, high) {
@@ -153,11 +153,11 @@ export default function sortingSketch (p){
         for (let i = 0; i < sortArray.length; ++i) {        //traversing unsorted array
             let min_index = i;                              //find minimum element in unsorted array
             for (let j = i; j < sortArray.length; ++j) { 
-              arrayColor[j] = 'red';                        //current traversing index
+              arrayColor[j] = 'Maroon ';                        //current traversing index
               arrayColor[min_index] = 'blue';               //current min index
               yield;
-              arrayColor[j] = 'grey';                       //reset color
-              arrayColor[min_index] = 'grey';               //reset color
+              arrayColor[j] = 'LightBlue ';                       //reset color
+              arrayColor[min_index] = 'LightBlue ';               //reset color
               if (sortArray[j] < sortArray[min_index]) {    //comparison for smaller value
                 min_index = j;
               }
@@ -167,7 +167,7 @@ export default function sortingSketch (p){
               swap(sortArray, i, min_index);
             }
             // Current element is correctly sorted
-            arrayColor[i] = 'green';
+            arrayColor[i] = 'DarkSeaGreen';
             yield ;
           }
     }
@@ -175,11 +175,11 @@ export default function sortingSketch (p){
         /*let i = low;
         let j = middle + 1;
         while (i <= middle && j <= high) {
-          arrayColor[i] = 'red';
-          arrayColor[j] = 'red';
+          arrayColor[i] = 'IndianRed ';
+          arrayColor[j] = 'IndianRed ';
           yield;
-          arrayColor[i] = 'grey';
-          arrayColor[j] = 'grey';
+          arrayColor[i] = 'LightBlue ';
+          arrayColor[j] = 'LightBlue ';
           if (arr[i] > arr[j]) {
             for (let k = i; k <= j; ++k) {
               swap(arr, k, j);
