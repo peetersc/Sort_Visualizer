@@ -182,7 +182,7 @@ export default class Home extends React.Component {
       isActive: sortType[_id].active,
     })
     
-
+    beginSort.isPressed=true;
   }
 
   render() {
