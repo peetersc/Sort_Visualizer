@@ -3,18 +3,17 @@
   Alex: Responsible for animation
   Last Updated: 7/9/20 @ 4:00pm by Alex
 */
-import {sortType} from '../Home'
-import {beginSort} from '../Home'
+import {sortType,beginSort,arraySize} from '../Home'
 let sortArray =[]
 export {sortArray};
-
 
 export default function sortingSketch (p){
     const height = 300
     const width = 800
-    let numBars = 10;
-    let barWidth = width / (numBars);
+    let barWidth = width / (arraySize);
     let swapIndex=0;
+    let i=0;
+    let j=0;
     p.setup =function (){
         p.createCanvas(width,height);
         resetArray();
@@ -22,23 +21,34 @@ export default function sortingSketch (p){
     function resetArray() {
         swapIndex=-2;
         p.print(swapIndex);
-        sortArray=new Array(numBars);
+        sortArray=new Array(arraySize);
         for (let i = 0; i < sortArray.length; i++) {
             sortArray[i]=p.random(height);
         }
+        i=0;
+        j=0;
     }
-    let i=0;
-    let j=0;
+    p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
+        if (props.loop){
+          p.loop();
+        }
+      };
     p.draw =function (){
         // Scale and translate are done so that the origin is in the bottom left
         // instead of the top left, and so that rectangles are drawn from the
         // bottom up instead of top down.
+        console.log(1);
         p.scale(1,-1);
         p.translate(0, -height);
         p.background(255);
         p.stroke(0);
-        let sortID=0;//want to import sortType from home.js
-        if (beginSort){
+        if(beginSort.isPressed)
+        {
+            resetArray();
+            beginSort.isPressed=false;
+        }
+        if (beginSort.active){
+
             if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
             {
                 bubbleSort(sortArray);
@@ -47,8 +57,10 @@ export default function sortingSketch (p){
             {
                 quickSort(sortArray);
             }
+        }else{
+
         }
-        for (let i = 0; i < numBars; i++) { //drawing every rectangle from index 0 to last index
+        for (let i = 0; i < arraySize; i++) { //drawing every rectangle from index 0 to last index
             p.fill('grey') //fill rectangle color
             if (i===swapIndex){//index where the swap has taken place
                 p.fill('red') 
@@ -78,9 +90,8 @@ export default function sortingSketch (p){
             }
         }else{
             swapIndex=-2;
-            p.noLoop();
-            //beginSort=false;
-            resetArray();
+            i=0;
+            j=0;
         }
     }
     function quickSort(sortArray){
