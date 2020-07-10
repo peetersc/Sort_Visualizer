@@ -14,7 +14,7 @@ let beginSort= {
     active: false,
     isPressed: false,
 };
-let arraySize = 300;
+let arraySize = 100;
 export{beginSort,arraySize};
 const Styles = styled.div`
   .off{
@@ -180,7 +180,6 @@ export default class Home extends React.Component {
       value: sortType[_id].value + " Sort",
       isActive: sortType[_id].active,
     })
-    
     beginSort.isPressed=true;
   }
   changeSlider= (value) =>{

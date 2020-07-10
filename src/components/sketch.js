@@ -23,8 +23,6 @@ export default function sortingSketch (p){
             sortArray[i]=p.random(height);
             arrayColor[i]=-1;
         }
-        i=0;
-        j=0;
     }
     p.draw =function (){
         // Scale and translate are done so that the origin is in the bottom left
@@ -45,13 +43,13 @@ export default function sortingSketch (p){
             {
                 bubbleSort(sortArray);
             }
-            if(sortType.find(elem=>elem.active ===true).id===1)
+            else if(sortType.find(elem=>elem.active ===true).id===1)
             {
-                quickSort(sortArray,0,arraySize-1);            
+                quickSort(sortArray,0,arraySize-1);      
                 beginSort.active=false;
 
             }
-            if(sortType.find(elem=>elem.active ===true).id===4)
+            else if(sortType.find(elem=>elem.active ===true).id===4)
             {
                 selectionSort(sortArray);
             }
@@ -62,10 +60,13 @@ export default function sortingSketch (p){
             }
             if (arrayColor[i] === 0) {
                 arrayColor[i]=-1;
-                p.fill(255, 0, 0); //red
+                p.fill('red'); //red
             }
             if (arrayColor[i] === 1) {
-                p.fill(100, 200, 50);//green
+                p.fill('green');
+            }
+            if (arrayColor[i] === 2) {
+                p.fill('blue');
             }
             
             p.rect(i*barWidth, 0, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
@@ -79,7 +80,7 @@ export default function sortingSketch (p){
         if(i<sortArray.length){
             j++;
             if(j>=sortArray.length-1-i){
-                arrayColor[j]=1;
+                //arrayColor[j]=1;
                 j=0;
                 i++;
             }
@@ -93,7 +94,7 @@ export default function sortingSketch (p){
 
       async function quickSort(arr, start, end) {
         if (start >= end) {
-            return
+            return;
         }
         let index = await partition(arr, start, end);
         arrayColor[index] = -1;
@@ -105,7 +106,7 @@ export default function sortingSketch (p){
     
     async function partition(arr, start, end) {
         for (let i = start; i < end; i++) {
-            arrayColor[i] = 1;
+            arrayColor[i] = 2;
         }
         let pivotIndex = start;
         let pivotValue = arr[end];
@@ -119,15 +120,11 @@ export default function sortingSketch (p){
             }
         }
         await swapS(arr, pivotIndex, end);
-        for (let i = start; i < end; i++) {
-            //arrayColor[i] = -1;
-        }
-    
         return pivotIndex;
     }
     
     async function swapS(arr, a, b) {
-        await sleep(20)
+        await sleep(30)
         let temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
