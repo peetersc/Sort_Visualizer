@@ -94,7 +94,7 @@ export default function sortingSketch (p){
             for (let j = 0; j < i; j++) {
             arrayColor[j+1] = 'Maroon ';
             yield;
-            arrayColor[j+1]='LightBlue ';
+            arrayColor[j+1]='floralwhite ';
               if (sortArray[j] > sortArray[j + 1]) {
                 swap(sortArray, j, j + 1);
               }
@@ -110,7 +110,7 @@ export default function sortingSketch (p){
             while (j >= 0 && sortArray[j] > sortArray[i]) {
               arrayColor[i] = 'Maroon ';
               yield;
-              arrayColor[i] = 'LightBlue ';
+              arrayColor[i] = 'floralwhite ';
               swap(sortArray, i, j);
               swap(arrayColor, i--, j--);
             }
@@ -125,8 +125,8 @@ export default function sortingSketch (p){
             arrayColor[piv] = 'Maroon ';
             arrayColor[j] = 'Maroon ';
           yield;
-            arrayColor[piv]='LightBlue '
-            arrayColor[j]='LightBlue '
+            arrayColor[piv]='floralwhite '
+            arrayColor[j]='floralwhite '
           if (arr[j] < pivot) {
             swap(arr, piv, j);
             piv++
@@ -156,8 +156,8 @@ export default function sortingSketch (p){
               arrayColor[j] = 'Maroon ';                        //current traversing index
               arrayColor[min_index] = 'blue';               //current min index
               yield;
-              arrayColor[j] = 'LightBlue ';                       //reset color
-              arrayColor[min_index] = 'LightBlue ';               //reset color
+              arrayColor[j] = 'floralwhite ';                       //reset color
+              arrayColor[min_index] = 'floralwhite ';               //reset color
               if (sortArray[j] < sortArray[min_index]) {    //comparison for smaller value
                 min_index = j;
               }
@@ -178,8 +178,8 @@ export default function sortingSketch (p){
           arrayColor[i] = 'IndianRed ';
           arrayColor[j] = 'IndianRed ';
           yield;
-          arrayColor[i] = 'LightBlue ';
-          arrayColor[j] = 'LightBlue ';
+          arrayColor[i] = 'floralwhite ';
+          arrayColor[j] = 'floralwhite ';
           if (arr[i] > arr[j]) {
             for (let k = i; k <= j; ++k) {
               swap(arr, k, j);
