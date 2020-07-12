@@ -162,16 +162,27 @@ function sort(id) {
  beginSort.isPressed=true;
 };
 
-
 export default class Home extends React.Component {
   //Holds the state of the current page to be shown
   state = {
       id: 0,
       value: sortType[0].value + " Sort",
       isActive: false,
+      controlButton: 0,
       stateSketch:sketch,
   };
-  
+
+  //once begin is pressed, this will change into a pause/resume button. (need help)
+  changeButton(val){
+    if(val==0){
+      sort(this.state.id)
+      val=1
+    }
+    this.setState({
+      controlButton : val
+    })
+  }
+
   //Changes the current state of the page to the active button clicked
   changeState = (_id) =>{
     //Switches active state to false and finds current id adn sets active
@@ -191,8 +202,8 @@ export default class Home extends React.Component {
   sliderSpeed= () =>{
     var x = document.getElementById("myRange").value;
     sliderVal = x
-    //console.log(sliderVal)
   }
+
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
@@ -204,13 +215,13 @@ export default class Home extends React.Component {
         </Button>
       )
     }
-    Buttons.push(<BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.changeButton(0)}>Begin Sort</BeginButton>)
 
     const Pseudocode = []
     for (const[index, value] of sortType.entries()){
       Pseudocode.push(
       <div className="">
-      <p className="Pseudocode">Function: {sortType[index].value + "Sort()"}</p>
+      {/* <p className="Pseudocode">Function: {sortType[index].value + "Sort()"}</p> */}
       <pre className="Pseudocode">
         <code>
           {sortType[index].pseudocode}
