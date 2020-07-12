@@ -13,7 +13,8 @@ let beginSort= {
     isPressed: false,
 };
 let arraySize = 50;
-export{beginSort,arraySize};
+let sliderVal = 50;
+export{beginSort,arraySize, sliderVal};
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -63,6 +64,26 @@ const BeginButton = styled.button`
   margin: 1em;
   padding: 0.25em 1em;
   border: 2px solid mediumseagreen;
+  border-radius: 3px;
+`;
+
+const PauseButton = styled.button`
+  background: ${props => props.primary ? "red": "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid red;
+  border-radius: 3px;
+`;
+
+const ResumeButton = styled.button`
+  background: ${props => props.primary ? "green": "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid green;
   border-radius: 3px;
 `;
 
@@ -165,10 +186,12 @@ export default class Home extends React.Component {
     })
     beginSort.isPressed=true;
   }
-  changeSlider= (value) =>{
-    arraySize=value;
-    let iterator;
-    iterator.next();
+
+  //gets the slider's speed and sets the slider speed variable to it
+  sliderSpeed= () =>{
+    var x = document.getElementById("myRange").value;
+    sliderVal = x
+    //console.log(sliderVal)
   }
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
@@ -200,7 +223,10 @@ export default class Home extends React.Component {
       <Styles>
         <div>
           {Buttons}
-          <input type="range" min="10" max="300" value={arraySize} ></input>
+
+          {/* displays the slider and updates the speed variable on clicks */}
+          <input type="range" id="myRange" onClick={() => this.sliderSpeed()}/>
+
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
           {Pseudocode[this.state.id]}
         </div>
