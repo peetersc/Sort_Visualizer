@@ -39,6 +39,28 @@ const Styles = styled.div`
     color: #efefef;
     background: black;
   }
+  .collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+  }
+  
+  .active, .collapsible:hover {
+    background-color: #555;
+  }
+  
+  .content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
 `;
 
 const Button = styled.button`
@@ -169,8 +191,22 @@ export default class Home extends React.Component {
       value: sortType[0].value + " Sort",
       isActive: false,
       controlButton: 0,
+      showPsuedo: false,
       stateSketch:sketch,
   };
+
+  handleCollapsible() {
+    var content = this.nextElementSibling;
+    if (this.state.showPsuedo) {
+      this.setState({
+        showPsuedo: false
+      })
+    } else {
+      this.setState({
+        showPsuedo: true
+      })
+    }
+  }
 
   //once begin is pressed, this will change into a pause/resume button. (need help)
   changeButton(val){
@@ -239,7 +275,8 @@ export default class Home extends React.Component {
           <input type="range" id="myRange" onClick={() => this.sliderSpeed()}/>
 
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
-          {Pseudocode[this.state.id]}
+          <button type="button" class="collapsible" onClick={() => this.handleCollapsible()}>More Info</button>
+          {this.state.showPsuedo ? Pseudocode[this.state.id] : null }
         </div>
       </Styles>
     );
