@@ -12,25 +12,38 @@ export default function sortingSketch (p){
     let barWidth = width / (arraySize);
     let sortArray =[];
     let arrayColor=[];
+    let unsortedArray = [];
     let iterator;
     let paused;
     let piv;
     p.setup =function (){
         p.createCanvas(width,height);
-        resetArray();
+        initArray();
     };
-    function resetArray() {
+    function initArray() {
         sortArray=new Array(arraySize);
         arrayColor=new Array(arraySize);
+        unsortedArray=new Array(arraySize);
+        let hightMin = 10;
         for (let i = 0; i < sortArray.length; i++) {
-            sortArray[i]=p.random(height)+10;
+            let rectHight = p.random(height)+hightMin;
+            sortArray[i]= rectHight;
+            unsortedArray[i] = rectHight;
             //arrayColor[i]=-1;
             arrayColor[i]='floralwhite';
         }
         paused=false;            
         iterator = tempGenerator();
-
     }
+    function resetArray() {
+      let hightMin = 10;
+      for (let i = 0; i < sortArray.length; i++) {
+          sortArray[i]= unsortedArray[i];
+          //arrayColor[i]=-1;
+          arrayColor[i]='floralwhite';
+      }
+      paused=false;            
+  }
     function *tempGenerator(){
         while(true)
         yield;
@@ -45,34 +58,42 @@ export default function sortingSketch (p){
         p.noStroke();    
         if(beginSort.isPressed)
         {
-            //resetArray();
-            beginSort.isPressed=false;        
+            resetArray();
+            beginSort.isPressed=false;  
         }
         if (beginSort.active){
             if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
             {
                 iterator = bubbleSort(sortArray);
+            resetArray();
+
             }
             else if(sortType.find(elem=>elem.active ===true).id===1)
             {
-                iterator=quicksort(sortArray,0,arraySize);      
+                iterator=quicksort(sortArray,0,arraySize);  
+            resetArray();
+
 
             }
             else if(sortType.find(elem=>elem.active ===true).id===2)
             {
                 iterator=mergeSort(sortArray,0,arraySize);
+            resetArray();
+
             } 
             else if(sortType.find(elem=>elem.active ===true).id===3)
             {
                 iterator=insertionSort(sortArray);
+                resetArray();
+
             } 
             else if(sortType.find(elem=>elem.active ===true).id===4)
             {
-                iterator=selectionSort(sortArray);
+              iterator=selectionSort(sortArray);
+              resetArray();
             }                
                
             beginSort.active=false;
-
         } 
         if(!paused){
              if(iterator.next().done)

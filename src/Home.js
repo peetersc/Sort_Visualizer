@@ -37,7 +37,7 @@ const Styles = styled.div`
   }
   .Pseudocode{
     color: #efefef;
-    background: black;
+    background: none;
   }
   .collapsible {
     background-color: #777;
