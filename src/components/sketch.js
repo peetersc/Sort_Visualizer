@@ -20,26 +20,24 @@ let speed;
 let par;
 export function beginSortClick(){  
   initArray();                
-  if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
-  {
+  switch(sortType.find(elem=>elem.active ===true).value){
+    case 'Bubble':
       iterator = bubbleSort(sortArray,colorArray);
-  }
-  else if(sortType.find(elem=>elem.active ===true).id===1)
-  {
+      break;
+    case 'Quick':
       iterator=quicksort(sortArray,0,arraySize,colorArray);
-  }
-  else if(sortType.find(elem=>elem.active ===true).id===2)
-  {
+      break;
+    case 'Merge':
       iterator=mergeSort(sortArray,0,arraySize,colorArray);
-  } 
-  else if(sortType.find(elem=>elem.active ===true).id===3)
-  {
-      iterator=insertionSort(sortArray,colorArray);
-  } 
-  else if(sortType.find(elem=>elem.active ===true).id===4)
-  {
-    iterator=selectionSort(sortArray,colorArray);
-  }               
+      break;
+    case 'Insertion':
+        iterator=insertionSort(sortArray,colorArray);
+
+      break;
+    case 'Selection':
+      iterator=selectionSort(sortArray,colorArray);
+      break;
+  }                
   paused=false;
   par.redraw();
 }
