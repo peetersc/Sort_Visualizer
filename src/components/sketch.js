@@ -18,14 +18,15 @@ let viewArray = [];
 let piv;
 let speed;
 let par;
-export function beginSortClick(){
+export function beginSortClick(){  
+  initArray();                
   if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
   {
       iterator = bubbleSort(sortArray,colorArray);
   }
   else if(sortType.find(elem=>elem.active ===true).id===1)
   {
-      iterator=quicksort(sortArray,0,arraySize,colorArray);  
+      iterator=quicksort(sortArray,0,arraySize,colorArray);
   }
   else if(sortType.find(elem=>elem.active ===true).id===2)
   {
@@ -38,8 +39,7 @@ export function beginSortClick(){
   else if(sortType.find(elem=>elem.active ===true).id===4)
   {
     iterator=selectionSort(sortArray,colorArray);
-  }
-  initArray();                
+  }               
   paused=false;
   par.redraw();
 }
@@ -69,15 +69,16 @@ function initArray() {
             unsortedArray[i] = rectHight;
             colorArray[i]='floralwhite';
         }
-        paused=true;            
-        iterator=bubbleSort(sortArray,colorArray);
+        paused=true;         
+        iterator=bubbleSort(sortArray,colorArray);  
 }
 export default function sortingSketch (p){
     par=p;
     speed=100-speed;
     speed*=12.5;
     p.setup =function (){
-        p.createCanvas(width,height);
+        p.createCanvas(width,height);        
+        iterator=bubbleSort(sortArray,colorArray);
         initArray();
     };
     p.draw =function (){
@@ -102,7 +103,7 @@ export default function sortingSketch (p){
         if(!paused){
           p.loop();        
           iterator.next();              
-        }            
+        } 
     }
 }    
     const sleep = (milliseconds) => {
