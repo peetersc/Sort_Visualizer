@@ -8,13 +8,15 @@ import React, {Component, useState} from 'react'
 import styled from 'styled-components';
 import P5Wrapper from 'react-p5-wrapper'
 import sketch from './components/sketch'
-let beginSort= {
-    active: false,
-    isPressed: false,
-};
+import {beginSortClick} from './components/sketch'
+import {typeClicked} from './components/sketch'
+import {nextClicked} from './components/sketch'
+import {pauseClicked} from './components/sketch'
+
+
 let arraySize = 50;
 let sliderVal = 50;
-export{beginSort,arraySize, sliderVal};
+export{arraySize, sliderVal};
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -180,8 +182,7 @@ export const sortType = [
   }
 ];
 function sort(id) {
- beginSort.active=true;
- beginSort.isPressed=true;
+beginSortClick();
 };
 
 export default class Home extends React.Component {
@@ -231,7 +232,7 @@ export default class Home extends React.Component {
       value: sortType[_id].value + " Sort",
       isActive: sortType[_id].active,
     })
-    beginSort.isPressed=true;
+    typeClicked();
   }
 
   //gets the slider's speed and sets the slider speed variable to it
@@ -239,7 +240,12 @@ export default class Home extends React.Component {
     var x = document.getElementById("myRange").value;
     sliderVal = x
   }
-
+  changeNext(){
+    nextClicked();
+  }
+  changePause(){
+    pauseClicked();
+  }
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
@@ -251,7 +257,11 @@ export default class Home extends React.Component {
         </Button>
       )
     }
-    Buttons.push(<BeginButton primary onClick={() => this.changeButton(0)}>Begin Sort</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.changeButton(0)}>Reset and Begin Sort</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.changeNext()}>Next</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.changePause()}>Pause/Resume</BeginButton>)
+
+
 
     const Pseudocode = []
     for (const[index, value] of sortType.entries()){

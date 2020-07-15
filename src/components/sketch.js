@@ -4,53 +4,82 @@
   Alex: Responsible for animation
   Last Updated: 7/9/20 @ 4:00pm by Alex
 */
-import {sortType,beginSort,arraySize, sliderVal} from '../Home'
-
+import {sortType,arraySize, sliderVal} from '../Home'
+let iterator;
+let paused;
+const height = 300
+const width = window.innerWidth / 1.307
+let barWidth = width / (50);
+let sortArray =[];
+let colorArray=[];
+let arrayViewColor=[];
+let unsortedArray = [];
+let viewArray = [];
+let piv;
+let speed;
+let par;
+export function beginSortClick(){
+  if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
+  {
+      iterator = bubbleSort(sortArray,colorArray);
+  }
+  else if(sortType.find(elem=>elem.active ===true).id===1)
+  {
+      iterator=quicksort(sortArray,0,arraySize,colorArray);  
+  }
+  else if(sortType.find(elem=>elem.active ===true).id===2)
+  {
+      iterator=mergeSort(sortArray,0,arraySize,colorArray);
+  } 
+  else if(sortType.find(elem=>elem.active ===true).id===3)
+  {
+      iterator=insertionSort(sortArray,colorArray);
+  } 
+  else if(sortType.find(elem=>elem.active ===true).id===4)
+  {
+    iterator=selectionSort(sortArray,colorArray);
+  }
+  initArray();                
+  paused=false;
+  par.redraw();
+}
+export function typeClicked(){
+  initArray();
+}
+export function pauseClicked(){
+  if(paused)
+    paused=false;
+  else
+    paused=true;
+  par.redraw();
+}
+export function nextClicked(){
+  paused=false;
+  par.redraw();
+  paused=true;
+}
+function initArray() {
+        sortArray=new Array(arraySize);
+        colorArray=new Array(arraySize);
+        unsortedArray=new Array(arraySize);
+        let heightMin = 10;
+        for (let i = 0; i < sortArray.length; i++) {
+            let rectHight = Math.floor(Math.random()*(height-heightMin)+heightMin);
+            sortArray[i]= rectHight;
+            unsortedArray[i] = rectHight;
+            colorArray[i]='floralwhite';
+        }
+        paused=true;            
+        iterator=bubbleSort(sortArray,colorArray);
+}
 export default function sortingSketch (p){
-    const height = 300
-    const width = window.innerWidth / 1.307
-    let barWidth = width / (arraySize);
-    let sortArray =[];
-    let arrayColor=[];
-    let unsortedArray = [];
-    let iterator;
-    let paused;
-    let piv;
-    let speed=sliderVal;
+    par=p;
     speed=100-speed;
     speed*=12.5;
     p.setup =function (){
         p.createCanvas(width,height);
         initArray();
     };
-    function initArray() {
-        sortArray=new Array(arraySize);
-        arrayColor=new Array(arraySize);
-        unsortedArray=new Array(arraySize);
-        let hightMin = 10;
-        for (let i = 0; i < sortArray.length; i++) {
-            let rectHight = p.random(height)+hightMin;
-            sortArray[i]= rectHight;
-            unsortedArray[i] = rectHight;
-            //arrayColor[i]=-1;
-            arrayColor[i]='floralwhite';
-        }
-        paused=false;            
-        iterator = tempGenerator();
-    }
-    function resetArray() {
-      let hightMin = 10;
-      for (let i = 0; i < sortArray.length; i++) {
-          sortArray[i]= unsortedArray[i];
-          //arrayColor[i]=-1;
-          arrayColor[i]='floralwhite';
-      }
-      paused=false;            
-  }
-    function *tempGenerator(){
-        while(true)
-        yield;
-    }
     p.draw =function (){
         // Scale and translate are done so that the origin is in the bottom left
         // instead of the top left, and so that rectangles are drawn from the
@@ -58,113 +87,83 @@ export default function sortingSketch (p){
         p.scale(1,-1);
         p.translate(0, -height);
         p.background(38, 38, 38);
-        p.noStroke();    
-        if(beginSort.isPressed)
-        {
-            resetArray();
-            beginSort.isPressed=false;  
-        }
-        if (beginSort.active){
-            if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
-            {
-                iterator = bubbleSort(sortArray);
-            }
-            else if(sortType.find(elem=>elem.active ===true).id===1)
-            {
-                iterator=quicksort(sortArray,0,arraySize);  
-            }
-            else if(sortType.find(elem=>elem.active ===true).id===2)
-            {
-                iterator=mergeSort(sortArray,0,arraySize);
-            } 
-            else if(sortType.find(elem=>elem.active ===true).id===3)
-            {
-                iterator=insertionSort(sortArray);
-            } 
-            else if(sortType.find(elem=>elem.active ===true).id===4)
-            {
-              iterator=selectionSort(sortArray);
-            }                
-               
-            beginSort.active=false;
-        } 
-        if(!paused){
-             if(iterator.next().done)
-             {
-                for (let i = 0; i < arraySize; i++) {
-                    arrayColor[i]='green';
-                }
-             }
-        }
-        
-       
+        p.noStroke(); 
+        speed=sliderVal;
+        speed=100-speed;
+        speed*=12.5;
+        barWidth=width/arraySize;     
         for (let i = 0; i < arraySize; i++) {
-            p.fill(arrayColor[i]);
+            p.fill(colorArray[i]);
             p.rect(i*barWidth, 0, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
-        }   
+        }
+        if(paused)  {      
+          p.noLoop();
+        }
+        if(!paused){
+          p.loop();        
+          iterator.next();              
+        }            
     }
-
-    //sleep function to use with the slider speed on the sorting functions. can only use with async functions
+}    
     const sleep = (milliseconds) => {
       return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
 
-    async function* bubbleSort() {
+    async function* bubbleSort(arr,cArray) {
       //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
       await sleep(speed)
-
-        for (let i = sortArray.length-1; i > 0; i--) {
+        for (let i = arr.length-1; i > 0; i--) {
           //pause before each outer loop iteration
             for (let j = 0; j < i; j++) {
               //sets the elements being compared to different colors
-              arrayColor[j+1] = 'Maroon ';
-              arrayColor[j] = 'blue ';
+              cArray[j+1] = 'Maroon';
+              cArray[j] = 'blue';
               //quick pause at the start of every inner loop iteration to show the elements being compared
-              await sleep(speed*.25)
+              await sleep(speed*.25)              
               yield;
               //swap them back to their original colors
-              arrayColor[j+1]='floralwhite ';
-              arrayColor[j]='floralwhite ';
-              if (sortArray[j] > sortArray[j + 1]) {
+              cArray[j+1]= 'floralwhite';
+              cArray[j]= 'floralwhite';
+              if (arr[j] > arr[j + 1]) {
                 //if a swap is needed, switch them back to the comparison colors and do a quick pause
-                arrayColor[j+1] = 'Maroon ';
-                arrayColor[j] = 'blue ';
+                cArray[j+1] = 'Maroon';
+                cArray[j] = 'blue';
                 await sleep(speed*.25)
                 //swap them and swap their colors
-                swap(sortArray, j, j + 1);
-                arrayColor[j+1] = 'blue ';
-                arrayColor[j] = 'Maroon ';
+                swap(arr, j, j + 1);
+                cArray[j+1] = 'blue';
+                cArray[j] = 'Maroon';
                 //do a quick pause to show they swapped, then set the swapped element to a specific color 
                 //and the other element to its original color
                 //await sleep(speed*.25)
-                arrayColor[j]= 'floralwhite';
+                cArray[j]= 'floralwhite';
               }
             }
             //set all elements swapped along the way of the inner loop back to their original colors
             for (let k = 0; k < i; k++) {
-              arrayColor[k]='floralwhite ';
+              cArray[k]= 'floralwhite';
             }
             //set the ith iteration to green to mark its sorted and wont be touched again
-            arrayColor[i]='DarkSeaGreen';
+            cArray[i]='DarkSeaGreen';
           }
-        arrayColor[0]='DarkSeaGreen';
+        cArray[0]='DarkSeaGreen';
     }
 
 
-    async function* partition(arr, low, high) {
+    async function* partition(arr, low, high,cArray) {
       var pivot = arr[high - 1];
       piv = low;
       for (let j = low; j < high; j++) {
 
         //initialize the starying and ending points with the same color
         for (let i = 0; i < sortArray.length; i++) {
-          if(arrayColor[i]==='red')
-            arrayColor[i]='floralwhite '
+          if(cArray[i]==='red')
+            cArray[i]= 'floralwhite'
         }        
-        arrayColor[low] = 'blue';
-        arrayColor[high - 1] = 'blue';
-        arrayColor[piv]='red';
-        arrayColor[j]='red';
+        cArray[low] = 'blue';
+        cArray[high - 1] = 'blue';
+        cArray[piv]='red';
+        cArray[j]='red';
         
         //sleep before begin the iteration
         await sleep(speed*.25)
@@ -180,44 +179,44 @@ export default function sortingSketch (p){
         }
       }
       swap(arr, piv, high - 1)
-      arrayColor[piv]='green';
+      cArray[piv]='green';
     }
-    async function* quicksort(arr, low, high) {
+    async function* quicksort(arr, low, high,cArray) {
       if (low < high) {
-        yield* partition(arr, low, high)
-        yield* quicksort(arr, low, piv)
-        yield* quicksort(arr, piv + 1, high)
+        yield* partition(arr, low, high,cArray)
+        yield* quicksort(arr, low, piv,cArray)
+        yield* quicksort(arr, piv + 1, high,cArray)
       }
     }
 
 
-    async function * insertionSort() {
+    async function * insertionSort(arr,cArray) {
       //set the first element to the sorted color
-      arrayColor[0] = 'DarkSeaGreen ';
+      cArray[0] = 'DarkSeaGreen';
 
-      for (let i = 1; i < sortArray.length; ++i) {
+      for (let i = 1; i < arr.length; ++i) {
           let j = i - 1;
 
-          while (j >= 0 && sortArray[j] > sortArray[i]) {
+          while (j >= 0 && arr[j] > arr[i]) {
             //set i and j to their own colors, then do a quick pause
-            arrayColor[i] = 'blue ';
-            arrayColor[j] = 'maroon ';
+            cArray[i] = 'blue';
+            cArray[j] = 'maroon';
             yield;
             await sleep(speed*.5)
-            swap(sortArray, i, j);
+            swap(arr, i, j);
 
             //show the color swap with a quick pause
-            arrayColor[i] = 'blue ';
-            arrayColor[j] = 'maroon ';
+            cArray[i] = 'blue';
+            cArray[j] = 'maroon';
             await sleep(speed*.5)
 
             //set the sorted items to their own color
-            arrayColor[j] = 'DarkSeaGreen ';
-            swap(arrayColor, i--, j--);
+            cArray[j] = 'DarkSeaGreen';
+            swap(cArray, i--, j--);
           }
           
           //reset anything i overrode back to the sorted color
-          arrayColor[i]='DarkSeaGreen '
+          cArray[i]='DarkSeaGreen'
         }
     }
 
@@ -228,65 +227,64 @@ export default function sortingSketch (p){
     }
 
 
-    async function* selectionSort(){                              // min selection sort
-      for (let i = 0; i < sortArray.length; ++i) {        //traversing unsorted array
+    async function* selectionSort(arr,cArray){                              // min selection sort
+      for (let i = 0; i < arr.length; ++i) {        //traversing unsorted array
         //sleep at start of new iteration
         await sleep(speed*.25)
           let min_index = i;                              //find minimum element in unsorted array
-          for (let j = i; j < sortArray.length; ++j) { 
+          for (let j = i; j < arr.length; ++j) { 
             //reset the unsorted colors to neutral
-            arrayColor[j] = 'floralwhite ';
+            cArray[j] =  'floralwhite';
           }
           //set the element to be swapped to its own color
-          arrayColor[i] = 'green ';
+          cArray[i] = 'green';
 
-          for (let j = i; j < sortArray.length; ++j) { 
+          for (let j = i; j < arr.length; ++j) { 
             //set colors for comparisons
-            arrayColor[j] = 'Maroon ';                        //current traversing index
-            arrayColor[min_index] = 'blue';               //current min index
+            cArray[j] = 'Maroon';                        //current traversing index
+            cArray[min_index] = 'blue';               //current min index
 
             //quick pause to show colors
             await sleep(speed*.25)
             yield;
-            arrayColor[j]='floralwhite'
+            cArray[j]='floralwhite'
             //trailing colors between min and i set to their own color
-            //arrayColor[j] = 'indigo ';                    
-            arrayColor[min_index] = 'floralwhite ';             
+            cArray[min_index] =  'floralwhite';             
 
-            if (sortArray[j] < sortArray[min_index]) {    //comparison for smaller value
+            if (arr[j] < arr[min_index]) {    //comparison for smaller value
               min_index = j;
               //reset trailing colors once min changes
               for (let k = i; k < j; ++k) { 
-                arrayColor[k] = 'floralwhite ';
+                cArray[k] =  'floralwhite';
               }
             }
           }
           // Swap with current element
           if (min_index !== i) {
             //swap and show changes with color swap
-            arrayColor[min_index] = 'blue ';
+            cArray[min_index] = 'blue';
             await sleep(speed*.5)
             swap(sortArray, i, min_index);
-            arrayColor[i] = 'blue ';
+            cArray[i] = 'blue';
             await sleep(speed*.25)
           }
           // Current element is correctly sorted
-          arrayColor[i] = 'green';
+          cArray[i] = 'green';
         }
     }
 
 
-    async function* merge(arr,low,middle,high){
+    async function* merge(arr,low,middle,high,cArray){
 
         let i = low;
         let j = middle + 1;
         while (i <= middle && j <= high) {
-          arrayColor[i] = 'red ';
-          arrayColor[j] = 'red';
+          cArray[i] = 'red';
+          cArray[j] = 'red';
           await sleep(speed*0.5);
           yield;
-          arrayColor[i] = 'floralwhite ';
-          arrayColor[j] = 'floralwhite ';
+          cArray[i] =  'floralwhite';
+          cArray[j] =  'floralwhite';
           if (arr[i] > arr[j]) {
             for (let k = i; k <= j; ++k) {
               swap(arr, k, j);
@@ -298,14 +296,12 @@ export default function sortingSketch (p){
           ++i;
         }
     }
-    async function* mergeSort(arr,low,high){      
+    async function* mergeSort(arr,low,high,cArray){      
         if(low<high){
-           let middle = p.floor((low+high)/2);
-            yield* mergeSort(arr,low,middle)
-            yield* mergeSort(arr,middle+1,high);
-            yield* merge(arr,low,middle,high);
+           let middle = Math.floor((low+high)/2);
+            yield* mergeSort(arr,low,middle,cArray)
+            yield* mergeSort(arr,middle+1,high,cArray);
+            yield* merge(arr,low,middle,high,cArray);
         }
 
     }
-
-}
