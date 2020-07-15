@@ -70,7 +70,6 @@ function initArray() {
             colorArray[i]='floralwhite';
         }
         paused=true;         
-        iterator=bubbleSort(sortArray,colorArray);  
 }
 export default function sortingSketch (p){
     par=p;
