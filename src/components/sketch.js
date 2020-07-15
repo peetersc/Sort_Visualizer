@@ -16,6 +16,9 @@ export default function sortingSketch (p){
     let iterator;
     let paused;
     let piv;
+    let speed=sliderVal;
+    speed=100-speed;
+    speed*=12.5;
     p.setup =function (){
         p.createCanvas(width,height);
         initArray();
@@ -65,32 +68,22 @@ export default function sortingSketch (p){
             if(sortType.find(elem=>elem.active ===true).id===0)//bubble sort
             {
                 iterator = bubbleSort(sortArray);
-            resetArray();
-
             }
             else if(sortType.find(elem=>elem.active ===true).id===1)
             {
                 iterator=quicksort(sortArray,0,arraySize);  
-            resetArray();
-
-
             }
             else if(sortType.find(elem=>elem.active ===true).id===2)
             {
                 iterator=mergeSort(sortArray,0,arraySize);
-            resetArray();
-
             } 
             else if(sortType.find(elem=>elem.active ===true).id===3)
             {
                 iterator=insertionSort(sortArray);
-                resetArray();
-
             } 
             else if(sortType.find(elem=>elem.active ===true).id===4)
             {
               iterator=selectionSort(sortArray);
-              resetArray();
             }                
                
             beginSort.active=false;
@@ -118,13 +111,10 @@ export default function sortingSketch (p){
 
     async function* bubbleSort() {
       //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
-      let speed=sliderVal;
-      speed=100-speed;
-      speed*=12.5;
+      await sleep(speed)
 
         for (let i = sortArray.length-1; i > 0; i--) {
           //pause before each outer loop iteration
-          await sleep(speed*.5)
             for (let j = 0; j < i; j++) {
               //sets the elements being compared to different colors
               arrayColor[j+1] = 'Maroon ';
@@ -161,7 +151,7 @@ export default function sortingSketch (p){
     }
 
 
-    async function* partition(arr, low, high, speed) {
+    async function* partition(arr, low, high) {
       var pivot = arr[high - 1];
       piv = low;
       for (let j = low; j < high; j++) {
@@ -193,21 +183,8 @@ export default function sortingSketch (p){
       arrayColor[piv]='green';
     }
     async function* quicksort(arr, low, high) {
-    //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
-    let speed=sliderVal;
-    speed=100-speed;
-    speed*=12.5;
-      /*
-    //reset everything back to neutral at the top of a recursive call
-    for (let i = 0; i < sortArray.length; i++) {
-      arrayColor[i]='floralwhite '
-    }
-    //then set all the sorted items to a color
-    for (let i = 0; i < low; i++) {
-      arrayColor[i]='DarkSeaGreen '
-    }*/
       if (low < high) {
-        yield* partition(arr, low, high, speed)
+        yield* partition(arr, low, high)
         yield* quicksort(arr, low, piv)
         yield* quicksort(arr, piv + 1, high)
       }
@@ -215,11 +192,6 @@ export default function sortingSketch (p){
 
 
     async function * insertionSort() {
-      //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
-      let speed=sliderVal;
-      speed=100-speed;
-      speed*=12.5;
-
       //set the first element to the sorted color
       arrayColor[0] = 'DarkSeaGreen ';
 
@@ -257,10 +229,6 @@ export default function sortingSketch (p){
 
 
     async function* selectionSort(){                              // min selection sort
-      //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
-      let speed=sliderVal;
-      speed=100-speed;
-      speed*=12.5;
       for (let i = 0; i < sortArray.length; ++i) {        //traversing unsorted array
         //sleep at start of new iteration
         await sleep(speed*.25)
@@ -315,6 +283,7 @@ export default function sortingSketch (p){
         while (i <= middle && j <= high) {
           arrayColor[i] = 'red ';
           arrayColor[j] = 'red';
+          await sleep(speed*0.5);
           yield;
           arrayColor[i] = 'floralwhite ';
           arrayColor[j] = 'floralwhite ';
@@ -322,6 +291,7 @@ export default function sortingSketch (p){
             for (let k = i; k <= j; ++k) {
               swap(arr, k, j);
             }
+          await sleep(speed*0.5);
             ++j;
             ++middle;
           }
@@ -329,10 +299,6 @@ export default function sortingSketch (p){
         }
     }
     async function* mergeSort(arr,low,high){      
-      //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
-    let speed=sliderVal;
-    speed=100-speed;
-    speed*=12.5;
         if(low<high){
            let middle = p.floor((low+high)/2);
             yield* mergeSort(arr,low,middle)
