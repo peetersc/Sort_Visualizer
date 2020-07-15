@@ -18,6 +18,7 @@ let viewArray = [];
 let piv;
 let speed;
 let par;
+
 export function beginSortClick(){  
   initArray();                
   switch(sortType.find(elem=>elem.active ===true).value){
@@ -32,7 +33,6 @@ export function beginSortClick(){
       break;
     case 'Insertion':
         iterator=insertionSort(sortArray,colorArray);
-
       break;
     case 'Selection':
       iterator=selectionSort(sortArray,colorArray);
@@ -41,9 +41,11 @@ export function beginSortClick(){
   paused=false;
   par.redraw();
 }
+
 export function typeClicked(){
   initArray();
 }
+
 export function pauseClicked(){
   if(paused)
     paused=false;
@@ -51,11 +53,13 @@ export function pauseClicked(){
     paused=true;
   par.redraw();
 }
+
 export function nextClicked(){
   paused=false;
   par.redraw();
   paused=true;
 }
+
 function initArray() {
         sortArray=new Array(arraySize);
         colorArray=new Array(arraySize);

@@ -42,7 +42,7 @@ const Styles = styled.div`
     background: none;
   }
   .collapsible {
-    background-color: #777;
+    background-color: #262626;
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -54,7 +54,7 @@ const Styles = styled.div`
   }
   
   .active, .collapsible:hover {
-    background-color: #555;
+    background-color: #262626;
   }
   
   .content {
@@ -285,7 +285,9 @@ export default class Home extends React.Component {
           <input type="range" id="myRange" onClick={() => this.sliderSpeed()}/>
 
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
-          <button type="button" class="collapsible" onClick={() => this.handleCollapsible()}>More Info</button>
+          <button type="button" class="collapsible" onClick={() => this.handleCollapsible()}>
+            Pseudocode {this.state.showPsuedo ? <i className="fa fa-caret-up"></i> : <i className="fa fa-caret-down"></i>}
+          </button>
           {this.state.showPsuedo ? Pseudocode[this.state.id] : null }
         </div>
       </Styles>
