@@ -194,6 +194,7 @@ export default class Home extends React.Component {
       controlButton: 0,
       showPsuedo: false,
       stateSketch:sketch,
+      isPaused: false,
   };
 
   handleCollapsible() {
@@ -216,7 +217,8 @@ export default class Home extends React.Component {
       val=1
     }
     this.setState({
-      controlButton : val
+      controlButton : val,
+      isPaused: true
     })
   }
 
@@ -243,7 +245,17 @@ export default class Home extends React.Component {
   changeNext(){
     nextClicked();
   }
+
   changePause(){
+    if (this.state.isPaused) {
+      this.setState({
+        isPaused: false
+      })
+    } else {
+      this.setState({
+        isPaused: true
+      })
+    }
     pauseClicked();
   }
   render() {
@@ -258,8 +270,11 @@ export default class Home extends React.Component {
       )
     }
     Buttons.push(<BeginButton primary onClick={() => this.changeButton(0)}>Reset and Begin Sort</BeginButton>)
-    Buttons.push(<BeginButton primary onClick={() => this.changeNext()}>Next</BeginButton>)
-    Buttons.push(<BeginButton primary onClick={() => this.changePause()}>Pause/Resume</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
+      {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
+    </BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
+
 
 
 
