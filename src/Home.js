@@ -321,7 +321,7 @@ export default class Home extends React.Component {
                 Speed:
               </th>
               <th style={{color:'white','padding-left':'15px'}}>
-                Array Size (10-100):&nbsp;
+                Array Size (10-150):&nbsp;
                 <input type="text" id = "textArraySize" size="4" maxlength="3" onChange ={() => this.updateSizeSlider()}></input>
               </th>
             </tr>
