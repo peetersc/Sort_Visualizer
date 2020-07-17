@@ -12,11 +12,13 @@ import {beginSortClick} from './components/sketch'
 import {typeClicked} from './components/sketch'
 import {nextClicked} from './components/sketch'
 import {pauseClicked} from './components/sketch'
+import {setSize} from './components/sketch'
 
 
-let arraySize = 50;
+//let arraySize = 50;
 let sliderVal = 50;
-export{arraySize, sliderVal};
+//export{arraySize, sliderVal};
+export {sliderVal};
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -246,6 +248,23 @@ export default class Home extends React.Component {
     nextClicked();
   }
 
+  updateSizeSlider = () =>{
+    var size = parseInt(document.getElementById("textArraySize").value);
+    
+    if(size == NaN){
+      return;
+    }
+    else if(size>150){
+      size = 150
+    }
+    else if(size<10){
+      size = 10
+    }
+    
+   document.getElementById("sizeSlide").value = size
+  }
+  
+
   changePause(){
     if (this.state.isPaused) {
       this.setState({
@@ -269,7 +288,7 @@ export default class Home extends React.Component {
         </Button>
       )
     }
-    Buttons.push(<BeginButton primary onClick={() => this.changeButton(0)}>Reset and Begin Sort</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value); this.changeButton(0)}}>Reset and Begin Sort</BeginButton>)
     Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
       {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
     </BeginButton>)
@@ -295,10 +314,26 @@ export default class Home extends React.Component {
       <Styles>
         <div>
           {Buttons}
-
           {/* displays the slider and updates the speed variable on clicks */}
-          <input type="range" id="myRange" onClick={() => this.sliderSpeed()}/>
-
+          <table>
+            <tr>
+              <th style={{color:'white','padding-left':'15px'}}>
+                Speed:
+              </th>
+              <th style={{color:'white','padding-left':'15px'}}>
+                Array Size (10-100):&nbsp;
+                <input type="text" id = "textArraySize" size="4" maxlength="3" onChange ={() => this.updateSizeSlider()}></input>
+              </th>
+            </tr>
+            <tr>
+              <td style={{'padding-left':'15px'}}>
+                <input type="range" id="myRange" onClick={() => this.sliderSpeed()}/>
+              </td>
+              <td style={{'padding-left':'15px'}}>
+                <input type="range" id="sizeSlide" min="10" max="150" onChange ={() => {document.getElementById("textArraySize").value=document.getElementById("sizeSlide").value;}} />
+              </td>
+            </tr>
+          </table>          
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
           <button type="button" class="collapsible" onClick={() => this.handleCollapsible()}>
             Pseudocode {this.state.showPsuedo ? <i className="fa fa-caret-up"></i> : <i className="fa fa-caret-down"></i>}
