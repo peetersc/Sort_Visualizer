@@ -1,20 +1,25 @@
 /*
   Home.js: Main landing page
   Cameron: Responsible for GUI -- Header(Jumbotron), Buttons, Styles, Pseudocode
-  Last Updated: 7/10/20 @ 3:00pm by Cameron
+  Last Updated: 7/17/20 @ 1:00pm by Cameron
 */
+
 import React, {Component, useState} from 'react'
 import styled from 'styled-components';
 import P5Wrapper from 'react-p5-wrapper'
 import sketch from './components/sketch'
+import {beginSortClick} from './components/sketch'
+import {typeClicked} from './components/sketch'
+import {nextClicked} from './components/sketch'
+import {pauseClicked} from './components/sketch'
+import {setSize} from './components/sketch'
+import Code from './components/Code'
 
-let beginSort= {
-    active: false,
-    isPressed: false,
-};
-let arraySize = 50;
-export{beginSort,arraySize};
 
+//let arraySize = 50;
+let sliderVal = 50;
+//export{arraySize, sliderVal};
+export {sliderVal};
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -37,7 +42,29 @@ const Styles = styled.div`
   }
   .Pseudocode{
     color: #efefef;
-    background: black;
+    background: none;
+  }
+  .collapsible {
+    background-color: #262626;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 25px;
+  }
+  
+  .active, .collapsible:hover {
+    background-color: #262626;
+  }
+  
+  .content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
   }
 `;
 
@@ -67,84 +94,96 @@ const BeginButton = styled.button`
   border-radius: 3px;
 `;
 
-// SortType holds all data stored for each sortType
+const PauseButton = styled.button`
+  background: ${props => props.primary ? "red": "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid red;
+  border-radius: 3px;
+`;
+
+const ResumeButton = styled.button`
+  background: ${props => props.primary ? "green": "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid green;
+  border-radius: 3px;
+`;
+
 export const sortType = [
   {
     id: 0,
     value: 'Bubble',
     active: true,
-    pseudocode: ["begin BubbleSort(list)\n",
-                 "\tfor all elements of list\n",
-                 "\t\tif list[i] > list[i+1]\n",
-                 "\t\t\tswap(list[i], list[i+1]\n",
-                 "\t\tend if\n",
-                 "\tend for\n",
-                 "\treturn list\n",
-                 "end BubbleSort"]
+    pseudocode: ["BubbleSort(list):\n",
+                "\tfor i in range(len(list)):\n",
+                "\t\tfor j in range(0, len(list)-1):\n",
+                "\t\t\tif arr[j] > arr[j+1]:\n",
+                "\t\t\t\tswap(arr[j],arr[j+1])\n",]
   },
   {
     id: 1,
     value: 'Quick',
     active: false,
-    pseudocode: ["begin QuickSort(arr, low, high)\n",
+    pseudocode: ["QuickSort(arr, low, high): \n",
                 "\tif(low < high)\n",
-                "\t\tpivot = partition(arr, low, high)\n",
+                "\t\tPartition(arr, low, high,arr)\n",
                 "\t\tQuickSort(arr, low, pivot - 1)\n",
-                "\t\tQuickSort(arr, pivot + 1, high)\n",
-                "\tend if\n",
-                "end QuickSort"]
+                "\t\tQuickSort(arr, pivot + 1, high)\n\n",
+                "Partition(arr, low, high, arr):\n",
+                "\tfor j in range(low, high):\n",
+                "\t\tif arr[j] <= arr[high]\n",
+                "\t\t\tswap(arr[j], arr[high])\n"]
   },
   {
     id: 2,
     value: 'Merge',
     active: false,
-    pseudocode: ["begin MergeSort(arr, left, right)\n",
-                "\tmiddle = (left+right)/2\n",
-                "\tMergeSort(arr, left, middle)\n",
-                "\tMergeSort(arr, middle + 1, right)\n",
-                "\tMerge(arr, middle + 1, right)\n",
-                "end MergeSort\n"]
+    pseudocode: ["MergeSort(arr, left, right):\n",
+                "\tif left < high:\n",
+                "\t\tmiddle = (left+right)/2\n",
+                "\t\tMergeSort(arr, left, middle)\n",
+                "\t\tMergeSort(arr, middle + 1, right)\n",
+                "\t\tMerge(arr, middle + 1, right)\n",
+                "Merge(arr, low, middle, high, arr):\n",
+                "\twhile i <= middle and j <= high):\n",
+                "\t\tif arr[i] > arr[j]:\n",
+                "\t\t\tfor k = i in j:\n",
+                "\t\t\t\tswap(arr, k, j);"]
   },
   {
     id: 3,
     value: 'Insertion',
     active: false,
-    pseudocode:  ["begin InsertionSort(arr)\n",
-                "\tfor i = 1 in arr\n",
+    pseudocode:  ["InsertionSort(arr):\n",
+                "\tfor i in range(1, len(arr))\n",
                 "\t\tkey = arr[i]\n",
                 "\t\tj = i - 1\n",
                 "\t\twhile j >= 0 and arr[j] > key\n",
-                "\t\t\tarr[j+1] = arr[j]\n",
+                "\t\t\tswap(arr[j+1], arr[j])\n",
                 "\t\t\tj = j - 1\n",
-                "\t\tend while\n",
-                "\t\tarr[j+1] = key\n",
-                "\tend for\n",
-                "end InsertionSort\n"]
+                "\t\tarr[j+1] = key\n"]
   },
   {
     id: 4,
     value: 'Selection',
     active: false,
-    pseudocode: ["begin SelectionSort(arr)\n",
+    pseudocode: ["SelectionSort(arr):\n",
                 "\tfor i in arr-1\n",
                 "\t\tmin = i\n",
                 "\t\tfor j = i+1 in arr\n",
                 "\t\t\tif arr[j] < arr[min]\n",
                 "\t\t\t\tmin = j\n",
-                "\t\t\tend if\n",
-                "\t\t\tswap(arr[min], arr[i])\n",
-                "\t\tend for\n",
-                "\tend for\n",
-                "end SelectionSort\n"]
+                "\t\t\tswap(arr[min], arr[i])\n"]
   }
 ];
-
-
 function sort(id) {
- beginSort.active=true;
- beginSort.isPressed=true;
+beginSortClick();
 };
-
 
 export default class Home extends React.Component {
   //Holds the state of the current page to be shown
@@ -152,12 +191,39 @@ export default class Home extends React.Component {
       id: 0,
       value: sortType[0].value + " Sort",
       isActive: false,
+      controlButton: 0,
+      showPsuedo: false,
       stateSketch:sketch,
+      isPaused: false,
   };
-  
+
+  handleCollapsible() {
+    var content = this.nextElementSibling;
+    if (this.state.showPsuedo) {
+      this.setState({
+        showPsuedo: false
+      })
+    } else {
+      this.setState({
+        showPsuedo: true
+      })
+    }
+  }
+
+  //once begin is pressed, this will change into a pause/resume button. (need help)
+  changeButton(val){
+    if(val==0){
+      sort(this.state.id)
+      val=1
+    }
+    this.setState({
+      controlButton : val,
+      isPaused: true
+    })
+  }
+
   //Changes the current state of the page to the active button clicked
   changeState = (_id) =>{
-
     //Switches active state to false and finds current id adn sets active
     sortType.find(x => x.active === true).active = false;
     sortType.find(x => x.id === _id).active = true;
@@ -168,18 +234,52 @@ export default class Home extends React.Component {
       value: sortType[_id].value + " Sort",
       isActive: sortType[_id].active,
     })
-    beginSort.isPressed=true;
+    typeClicked();
   }
 
-  changeSlider= (value) =>{
-    arraySize=value;
-    let iterator;
-    iterator.next();
+  //gets the slider's speed and sets the slider speed variable to it
+  sliderSpeed= () =>{
+    var x = document.getElementById("myRange").value;
+    sliderVal = x
+  }
+  changeNext(){
+    nextClicked();
   }
 
+  updateSizeSlider = () =>{
+    var size = parseInt(document.getElementById("textArraySize").value);
+    
+    if(size == NaN){
+      return;
+    }
+    else if(size>150){
+      size = 150
+    }
+    else if(size<10){
+      size = 10
+    }
+    
+   document.getElementById("sizeSlide").value = size
+  }
+  
+
+  changePause(){
+    if (this.state.isPaused) {
+      this.setState({
+        isPaused: false
+      })
+    } else {
+      this.setState({
+        isPaused: true
+      })
+    }
+    pauseClicked();
+  }
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
+    const code = <Code/>;
+
     for (const[index, value] of sortType.entries()){
       Buttons.push(
         <Button  onClick={() => this.changeState(index)} 
@@ -188,29 +288,40 @@ export default class Home extends React.Component {
         </Button>
       )
     }
-    Buttons.push(<BeginButton primary onClick={() => sort(this.state.id)}>Begin Sort</BeginButton>)
-
-    // Creates area for Pseudocode to be displayed
-    const Pseudocode = []
-    for (const[index, value] of sortType.entries()){
-      Pseudocode.push(
-      <div className="">
-      <p className="Pseudocode">Function: {sortType[index].value + "Sort()"}</p>
-      <pre className="Pseudocode">
-        <code>
-          {sortType[index].pseudocode}
-        </code>
-      </pre>
-    </div>)
-    }
-
+    Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value); this.changeButton(0)}}>Reset and Begin Sort</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
+      {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
+    </BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
     return (
       <Styles>
         <div>
           {Buttons}
-          <input type="range" min="10" max="300" value={arraySize} ></input>
+          {/* displays the slider and updates the speed variable on clicks */}
+          <table>
+            <tr>
+              <th style={{color:'white','padding-left':'15px'}}>
+                Speed:
+              </th>
+              <th style={{color:'white','padding-left':'15px'}}>
+                Array Size (10-150):&nbsp;
+                <input type="text" id = "textArraySize" size="4" maxlength="3" onChange ={() => this.updateSizeSlider()}></input>
+              </th>
+            </tr>
+            <tr>
+              <td style={{'padding-left':'15px'}}>
+                <input type="range" id="myRange" onClick={() => this.sliderSpeed()}/>
+              </td>
+              <td style={{'padding-left':'15px'}}>
+                <input type="range" id="sizeSlide" min="10" max="150" onChange ={() => {document.getElementById("textArraySize").value=document.getElementById("sizeSlide").value;}} />
+              </td>
+            </tr>
+          </table>          
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
-          {Pseudocode[this.state.id]}
+          <button type="button" class="collapsible" onClick={() => this.handleCollapsible()}>
+            Pseudocode {this.state.showPsuedo ? <i className="fa fa-caret-up"></i> : <i className="fa fa-caret-down"></i>}
+          </button>
+          {this.state.showPsuedo ? code : null }
         </div>
       </Styles>
     );
