@@ -4,7 +4,7 @@
   Alex: Responsible for animation
   Last Updated: 7/9/20 @ 4:00pm by Alex
 */
-import {sortType,arraySize, sliderVal} from '../Home'
+import {sortType, sliderVal} from '../Home'
 let iterator;
 let paused;
 const height = 300
@@ -18,6 +18,7 @@ let viewArray = [];
 let piv;
 let speed;
 let par;
+let arraySize = 50
 
 export function beginSortClick(){  
   initArray();                
@@ -60,12 +61,18 @@ export function nextClicked(){
   paused=true;
 }
 
+export function setSize(x){
+  paused = true;
+  arraySize = x;
+  paused = false;
+}
+
 function initArray() {
         sortArray=new Array(arraySize);
         colorArray=new Array(arraySize);
         unsortedArray=new Array(arraySize);
         let heightMin = 10;
-        for (let i = 0; i < sortArray.length; i++) {
+        for (let i = 0; i < arraySize; i++) {
             let rectHight = Math.floor(Math.random()*(height-heightMin)+heightMin);
             sortArray[i]= rectHight;
             unsortedArray[i] = rectHight;
