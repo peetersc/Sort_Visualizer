@@ -1,3 +1,11 @@
+/*
+  Home.js: Main landing page
+  Cameron: Responsible for GUI -- Header(Jumbotron), Buttons, Styles, Pseudocode
+  Last Updated: 7/17/20 @ 1:00pm by Cameron
+  Update: added comments and refactoring
+  Bugs: The Pseudocode activeLines sometimes changes when paused 
+*/
+
 import React, {Component} from 'react'
 import styled from 'styled-components';
 import {activeLine} from './sketch'
@@ -28,6 +36,7 @@ class Code extends Component{
         }
     }
 
+    //getCode(): returns a list of lines from the active sorting algorithm with acitveLine highlighted
     getCode(){
         let activeCode = sortType.find(x => x.active === true).pseudocode;
         let returnCode = []
@@ -46,6 +55,7 @@ class Code extends Component{
     render(){
         let activeSort = sortType.find(x => x.active === true);
 
+        //creates a list of all Pseudocode for each sortType
         const Pseudocode = []
         for (const[index, value] of sortType.entries()){
           Pseudocode.push(
@@ -62,12 +72,14 @@ class Code extends Component{
         return(
             <Styles>
                 <div>
+                    {/*Prints the active sort's Pseudocode */}
                     {Pseudocode[activeSort.id]}
                 </div>
             </Styles>
         )
     }
 
+    //Updates activeLine state
     componentDidMount(){
         this.myInterval = setInterval(()=>{
             this.setState(prevState => ({

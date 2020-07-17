@@ -1,7 +1,7 @@
 /*
   Home.js: Main landing page
   Cameron: Responsible for GUI -- Header(Jumbotron), Buttons, Styles, Pseudocode
-  Last Updated: 7/7/20 @ 8:00pm by Cameron
+  Last Updated: 7/17/20 @ 1:00pm by Cameron
 */
 
 import React, {Component, useState} from 'react'
