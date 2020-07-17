@@ -13,6 +13,7 @@ import {typeClicked} from './components/sketch'
 import {nextClicked} from './components/sketch'
 import {pauseClicked} from './components/sketch'
 import {setSize} from './components/sketch'
+import Code from './components/Code'
 
 
 //let arraySize = 50;
@@ -47,12 +48,12 @@ const Styles = styled.div`
     background-color: #262626;
     color: white;
     cursor: pointer;
-    padding: 18px;
+    padding: 0;
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
-    font-size: 15px;
+    font-size: 25px;
   }
   
   .active, .collapsible:hover {
@@ -118,69 +119,66 @@ export const sortType = [
     id: 0,
     value: 'Bubble',
     active: true,
-    pseudocode: ["begin BubbleSort(list)\n",
-                 "\tfor all elements of list\n",
-                 "\t\tif list[i] > list[i+1]\n",
-                 "\t\t\tswap(list[i], list[i+1]\n",
-                 "\t\tend if\n",
-                 "\tend for\n",
-                 "\treturn list\n",
-                 "end BubbleSort"]
+    pseudocode: ["BubbleSort(list):\n",
+                "\tfor i in range(len(list)):\n",
+                "\t\tfor j in range(0, len(list)-1):\n",
+                "\t\t\tif arr[j] > arr[j+1]:\n",
+                "\t\t\t\tswap(arr[j],arr[j+1])\n",]
   },
   {
     id: 1,
     value: 'Quick',
     active: false,
-    pseudocode: ["begin QuickSort(arr, low, high)\n",
+    pseudocode: ["QuickSort(arr, low, high): \n",
                 "\tif(low < high)\n",
-                "\t\tpivot = partition(arr, low, high)\n",
+                "\t\tPartition(arr, low, high,arr)\n",
                 "\t\tQuickSort(arr, low, pivot - 1)\n",
-                "\t\tQuickSort(arr, pivot + 1, high)\n",
-                "\tend if\n",
-                "end QuickSort"]
+                "\t\tQuickSort(arr, pivot + 1, high)\n\n",
+                "Partition(arr, low, high, arr):\n",
+                "\tfor j in range(low, high):\n",
+                "\t\tif arr[j] <= arr[high]\n",
+                "\t\t\tswap(arr[j], arr[high])\n"]
   },
   {
     id: 2,
     value: 'Merge',
     active: false,
-    pseudocode: ["begin MergeSort(arr, left, right)\n",
-                "\tmiddle = (left+right)/2\n",
-                "\tMergeSort(arr, left, middle)\n",
-                "\tMergeSort(arr, middle + 1, right)\n",
-                "\tMerge(arr, middle + 1, right)\n",
-                "end MergeSort\n"]
+    pseudocode: ["MergeSort(arr, left, right):\n",
+                "\tif left < high:\n",
+                "\t\tmiddle = (left+right)/2\n",
+                "\t\tMergeSort(arr, left, middle)\n",
+                "\t\tMergeSort(arr, middle + 1, right)\n",
+                "\t\tMerge(arr, middle + 1, right)\n",
+                "Merge(arr, low, middle, high, arr):\n",
+                "\twhile i <= middle and j <= high):\n",
+                "\t\tif arr[i] > arr[j]:\n",
+                "\t\t\tfor k = i in j:\n",
+                "\t\t\t\tswap(arr, k, j);"]
   },
   {
     id: 3,
     value: 'Insertion',
     active: false,
-    pseudocode:  ["begin InsertionSort(arr)\n",
-                "\tfor i = 1 in arr\n",
+    pseudocode:  ["InsertionSort(arr):\n",
+                "\tfor i in range(1, len(arr))\n",
                 "\t\tkey = arr[i]\n",
                 "\t\tj = i - 1\n",
                 "\t\twhile j >= 0 and arr[j] > key\n",
-                "\t\t\tarr[j+1] = arr[j]\n",
+                "\t\t\tswap(arr[j+1], arr[j])\n",
                 "\t\t\tj = j - 1\n",
-                "\t\tend while\n",
-                "\t\tarr[j+1] = key\n",
-                "\tend for\n",
-                "end InsertionSort\n"]
+                "\t\tarr[j+1] = key\n"]
   },
   {
     id: 4,
     value: 'Selection',
     active: false,
-    pseudocode: ["begin SelectionSort(arr)\n",
+    pseudocode: ["SelectionSort(arr):\n",
                 "\tfor i in arr-1\n",
                 "\t\tmin = i\n",
                 "\t\tfor j = i+1 in arr\n",
                 "\t\t\tif arr[j] < arr[min]\n",
                 "\t\t\t\tmin = j\n",
-                "\t\t\tend if\n",
-                "\t\t\tswap(arr[min], arr[i])\n",
-                "\t\tend for\n",
-                "\tend for\n",
-                "end SelectionSort\n"]
+                "\t\t\tswap(arr[min], arr[i])\n"]
   }
 ];
 function sort(id) {
@@ -280,6 +278,8 @@ export default class Home extends React.Component {
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
+    const code = <Code/>;
+
     for (const[index, value] of sortType.entries()){
       Buttons.push(
         <Button  onClick={() => this.changeState(index)} 
@@ -293,23 +293,6 @@ export default class Home extends React.Component {
       {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
     </BeginButton>)
     Buttons.push(<BeginButton primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
-
-
-
-
-    const Pseudocode = []
-    for (const[index, value] of sortType.entries()){
-      Pseudocode.push(
-      <div className="">
-      {/* <p className="Pseudocode">Function: {sortType[index].value + "Sort()"}</p> */}
-      <pre className="Pseudocode">
-        <code>
-          {sortType[index].pseudocode}
-        </code>
-      </pre>
-    </div>)
-    }
-
     return (
       <Styles>
         <div>
@@ -338,7 +321,7 @@ export default class Home extends React.Component {
           <button type="button" class="collapsible" onClick={() => this.handleCollapsible()}>
             Pseudocode {this.state.showPsuedo ? <i className="fa fa-caret-up"></i> : <i className="fa fa-caret-down"></i>}
           </button>
-          {this.state.showPsuedo ? Pseudocode[this.state.id] : null }
+          {this.state.showPsuedo ? code : null }
         </div>
       </Styles>
     );
