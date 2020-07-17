@@ -18,7 +18,10 @@ let viewArray = [];
 let piv;
 let speed;
 let par;
-let arraySize = 50
+let arraySize = 50;
+let heightOffset = 50;
+let comparisons = 0;
+let arrayAccesses = 0;
 
 export function beginSortClick(){  
   initArray();                
@@ -78,23 +81,22 @@ function initArray() {
             unsortedArray[i] = rectHight;
             colorArray[i]='floralwhite';
         }
-        paused=true;         
+        paused=true;
+        // Reset comparisons and arrayAccesses
+        comparisons=0;
+        arrayAccesses=0;
 }
+
 export default function sortingSketch (p){
     par=p;
     speed=100-speed;
     speed*=12.5;
     p.setup =function (){
-        p.createCanvas(width,height);        
+        p.createCanvas(width,height+heightOffset);
         iterator=bubbleSort(sortArray,colorArray);
         initArray();
     };
     p.draw =function (){
-        // Scale and translate are done so that the origin is in the bottom left
-        // instead of the top left, and so that rectangles are drawn from the
-        // bottom up instead of top down.
-        p.scale(1,-1);
-        p.translate(0, -height);
         p.background(38, 38, 38);
         p.noStroke(); 
         speed=sliderVal;
@@ -103,8 +105,11 @@ export default function sortingSketch (p){
         barWidth=width/arraySize;     
         for (let i = 0; i < arraySize; i++) {
             p.fill(colorArray[i]);
-            p.rect(i*barWidth, 0, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
+            p.rect(i*barWidth, height-sortArray[i]+heightOffset, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
         }
+        p.fill(255);
+        p.text('Array Accesses: ' + arrayAccesses, 0, 20);
+        p.text('Comparisons: ' + comparisons, 0, 40);
         if(paused)  {      
           p.noLoop();
         }
@@ -147,6 +152,8 @@ export default function sortingSketch (p){
                 //await sleep(speed*.25)
                 cArray[j]= 'floralwhite';
               }
+              // Increment Comparisons
+              comparisons++;
             }
             //set all elements swapped along the way of the inner loop back to their original colors
             for (let k = 0; k < i; k++) {
@@ -186,9 +193,11 @@ export default function sortingSketch (p){
           //swap j back, set the pivot to neutral, and set a new pivot
           piv++
         }
+        // Increment Comparisons
+        comparisons++;
       }
       swap(arr, piv, high - 1)
-      cArray[piv]='green';
+      cArray[piv]='DarkSeaGreen';
     }
     async function* quicksort(arr, low, high,cArray) {
       if (low < high) {
@@ -222,6 +231,8 @@ export default function sortingSketch (p){
             //set the sorted items to their own color
             cArray[j] = 'DarkSeaGreen';
             swap(cArray, i--, j--);
+            // Increment Comparisons
+            comparisons++;
           }
           
           //reset anything i overrode back to the sorted color
@@ -233,6 +244,7 @@ export default function sortingSketch (p){
         let temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
+        arrayAccesses++;
     }
 
 
@@ -267,6 +279,8 @@ export default function sortingSketch (p){
                 cArray[k] =  'floralwhite';
               }
             }
+            // Increment Comparisons
+            comparisons++;
           }
           // Swap with current element
           if (min_index !== i) {
@@ -277,8 +291,10 @@ export default function sortingSketch (p){
             cArray[i] = 'blue';
             await sleep(speed*.25)
           }
+          // Increment Comparisons
+          comparisons++;
           // Current element is correctly sorted
-          cArray[i] = 'green';
+          cArray[i] = 'DarkSeaGreen';
         }
     }
 
