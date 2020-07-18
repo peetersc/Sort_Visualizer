@@ -181,6 +181,7 @@ export const sortType = [
                 "\t\t\tswap(arr[min], arr[i])\n"]
   }
 ];
+
 function sort(id) {
 beginSortClick();
 };
@@ -212,7 +213,7 @@ export default class Home extends React.Component {
 
   //once begin is pressed, this will change into a pause/resume button. (need help)
   changeButton(val){
-    if(val==0){
+    if(val===0){
       sort(this.state.id)
       val=1
     }
@@ -240,16 +241,18 @@ export default class Home extends React.Component {
   //gets the slider's speed and sets the slider speed variable to it
   sliderSpeed= () =>{
     var x = document.getElementById("myRange").value;
-    sliderVal = x
+    sliderVal = x;
+    if(x>=99)
+      sliderVal=100;    
   }
-  changeNext(){
+  changeNext(){    
     nextClicked();
   }
 
   updateSizeSlider = () =>{
     var size = parseInt(document.getElementById("textArraySize").value);
     
-    if(size == NaN){
+    if(size.isNan){
       return;
     }
     else if(size>150){
@@ -263,7 +266,7 @@ export default class Home extends React.Component {
   }
   
 
-  changePause(){
+  changePause(){    
     if (this.state.isPaused) {
       this.setState({
         isPaused: false
@@ -275,11 +278,16 @@ export default class Home extends React.Component {
     }
     pauseClicked();
   }
+  resetSort(){
+    typeClicked();
+    this.setState({
+      isPaused: true
+    })
+}
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
     const code = <Code/>;
-
     for (const[index, value] of sortType.entries()){
       Buttons.push(
         <Button  onClick={() => this.changeState(index)} 
@@ -288,11 +296,12 @@ export default class Home extends React.Component {
         </Button>
       )
     }
-    Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value); this.changeButton(0)}}>Reset and Begin Sort</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value); this.changeButton(0)}}>Begin Sort</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => this.resetSort()}>Reset Sort</BeginButton>)
     Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
       {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
     </BeginButton>)
-    Buttons.push(<BeginButton primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
+    Buttons.push(<BeginButton  primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
     return (
       <Styles>
         <div>
@@ -310,7 +319,7 @@ export default class Home extends React.Component {
             </tr>
             <tr>
               <td style={{'padding-left':'15px'}}>
-                <input type="range" id="myRange" onClick={() => this.sliderSpeed()}/>
+                <input type="range" id="myRange" onChange={() => this.sliderSpeed()}/>
               </td>
               <td style={{'padding-left':'15px'}}>
                 <input type="range" id="sizeSlide" min="10" max="150" onChange ={() => {document.getElementById("textArraySize").value=document.getElementById("sizeSlide").value;}} />

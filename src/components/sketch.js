@@ -23,9 +23,14 @@ let arraySize = 50;
 let heightOffset = 50;
 let comparisons = 0;
 let arrayAccesses = 0;
+let flag;
 
-export function beginSortClick(){  
-  initArray();                
+export function beginSortClick(){ 
+  for (let i = 0; i < arraySize; i++) {
+    colorArray[i]='floralwhite';
+}
+sortArray=unsortedArray;
+
   switch(sortType.find(elem=>elem.active ===true).value){
     case 'Bubble':
       iterator = bubbleSort(sortArray,colorArray);
@@ -86,18 +91,16 @@ function initArray() {
         // Reset comparisons and arrayAccesses
         comparisons=0;
         arrayAccesses=0;
+        flag=true;
 }
-
 export default function sortingSketch (p){
     par=p;
-    speed=100-speed;
-    speed*=12.5;
     p.setup =function (){
         p.createCanvas(width,height+heightOffset);
         iterator=bubbleSort(sortArray,colorArray);
         initArray();
     };
-    p.draw =function (){
+    p.draw = function (){
         p.background(38, 38, 38);
         p.noStroke(); 
         speed=sliderVal;
@@ -111,13 +114,13 @@ export default function sortingSketch (p){
         p.fill(255);
         p.text('Array Accesses: ' + arrayAccesses, 0, 20);
         p.text('Comparisons: ' + comparisons, 0, 40);
-        if(paused)  {      
-          p.noLoop();
-        }
-        if(!paused){
-          p.loop();        
-          iterator.next();              
+        if(!paused&&flag){
+          flag=false;
+          iterator.next();
         } 
+    
+    }
+    function callNext(){
     }
 }    
     const sleep = (milliseconds) => {
@@ -127,7 +130,6 @@ export default function sortingSketch (p){
     async function* bubbleSort(arr,cArray) {
       //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
       activeLine = 1;        
-      await sleep(speed)
         for (let i = arr.length-1; i > 0; i--) {
           activeLine = 2;        
           //pause before each outer loop iteration
@@ -136,7 +138,8 @@ export default function sortingSketch (p){
               cArray[j+1] = 'Maroon';
               cArray[j] = 'blue';
               //quick pause at the start of every inner loop iteration to show the elements being compared
-              await sleep(speed*.25)              
+              await sleep(speed) 
+              flag=true;             
               yield;
               //swap them back to their original colors
               cArray[j+1]= 'floralwhite';
@@ -146,7 +149,6 @@ export default function sortingSketch (p){
                 //if a swap is needed, switch them back to the comparison colors and do a quick pause
                 cArray[j+1] = 'Maroon';
                 cArray[j] = 'blue';
-                await sleep(speed*.25)
                 //swap them and swap their colors
                 activeLine = 4;        
                 swap(arr, j, j + 1);
@@ -154,7 +156,6 @@ export default function sortingSketch (p){
                 cArray[j] = 'Maroon';
                 //do a quick pause to show they swapped, then set the swapped element to a specific color 
                 //and the other element to its original color
-                //await sleep(speed*.25)
                 cArray[j]= 'floralwhite';
               }
               // Increment Comparisons
@@ -182,26 +183,25 @@ export default function sortingSketch (p){
 
         //initialize the starying and ending points with the same color
         for (let i = 0; i < sortArray.length; i++) {
-          if(cArray[i]==='red')
+          if(cArray[i]==='red'||cArray[i]==='maroon')
             cArray[i]= 'floralwhite'
         }        
         cArray[low] = 'blue';
         cArray[high - 1] = 'blue';
         cArray[piv]='red';
-        cArray[j]='red';
+        cArray[j]='maroon';
         
         //sleep before begin the iteration
-        await sleep(speed*.25)
+        await sleep(speed)
+        flag=true;             
         yield;
         activeLine = 7;
 
         if (arr[j] < pivot) {
           //quick pause before the swap
-          await sleep(speed*.25)
           activeLine = 8;
           swap(arr, piv, j);
           //swap the colors to show the swap, then do a quick pause
-          await sleep(speed*.25)
           //swap j back, set the pivot to neutral, and set a new pivot
           piv++
         }
@@ -238,16 +238,15 @@ export default function sortingSketch (p){
             //set i and j to their own colors, then do a quick pause
             cArray[i] = 'blue';
             cArray[j] = 'maroon';
+            flag=true;       
             yield;
-            await sleep(speed*.5)
+            await sleep(speed)
             swap(arr, i, j);
 
             //show the color swap with a quick pause
             cArray[i] = 'blue';
             cArray[j] = 'maroon';
             
-            await sleep(speed*.5)
-
             //set the sorted items to their own color
             cArray[j] = 'DarkSeaGreen';
             activeLine = 5;
@@ -275,7 +274,6 @@ export default function sortingSketch (p){
       activeLine =1;
       for (let i = 0; i < arr.length; ++i) {        //traversing unsorted array
         //sleep at start of new iteration
-        await sleep(speed*.25)
         activeLine =2;
 
           let min_index = i;                              //find minimum element in unsorted array
@@ -293,7 +291,8 @@ export default function sortingSketch (p){
             cArray[min_index] = 'blue';               //current min index
 
             //quick pause to show colors
-            await sleep(speed*.25)
+            await sleep(speed)
+            flag=true;       
             yield;
             cArray[j]='floralwhite'
             //trailing colors between min and i set to their own color
@@ -315,12 +314,10 @@ export default function sortingSketch (p){
           if (min_index !== i) {
             //swap and show changes with color swap
             cArray[min_index] = 'blue';
-            await sleep(speed*.5)
             activeLine =6;
 
             swap(sortArray, i, min_index);
             cArray[i] = 'blue';
-            await sleep(speed*.25)
           }
           // Increment Comparisons
           comparisons++;
@@ -338,7 +335,8 @@ export default function sortingSketch (p){
         while (i <= middle && j <= high) {
           cArray[i] = 'red';
           cArray[j] = 'red';
-          await sleep(speed*0.5);
+          await sleep(speed);
+          flag=true;
           yield;
           cArray[i] =  'floralwhite';
           cArray[j] =  'floralwhite';
@@ -349,7 +347,6 @@ export default function sortingSketch (p){
               activeLine =10;     
               swap(arr, k, j);
             }
-          await sleep(speed*0.5);
             ++j;
             ++middle;
           }
@@ -367,8 +364,13 @@ export default function sortingSketch (p){
            activeLine =4;     
             yield* mergeSort(arr,middle+1,high,cArray);
            activeLine =5;     
-
+            console.log(middle)
             yield* merge(arr,low,middle,high,cArray);
         }
 
+
     }
+    
+  
+
+  
