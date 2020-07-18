@@ -107,7 +107,7 @@ export default function sortingSketch (p){
             p.rect(i*barWidth, height-sortArray[i]+heightOffset, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
         }
         p.fill(255);
-        p.text('Array Accesses: ' + arrayAccesses, 0, 20);
+        p.text('Swaps: ' + arrayAccesses, 0, 20);
         p.text('Comparisons: ' + comparisons, 0, 40);
         if(!paused&&flag){
           flag=false;
