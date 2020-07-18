@@ -4,7 +4,7 @@
   Alex: Responsible for animation
   Last Updated: 7/9/20 @ 4:00pm by Alex
 */
-import {sortType, sliderVal} from '../Home'
+import {sortType, speedSliderVal} from '../Home'
 let iterator;
 let paused;
 const height = 300
@@ -19,18 +19,13 @@ let viewArray = [];
 let piv;
 let speed;
 let par;
-let arraySize = 50;
 let heightOffset = 50;
 let comparisons = 0;
 let arrayAccesses = 0;
 let flag;
+let arraySize=50;
 
 export function beginSortClick(){ 
-  for (let i = 0; i < arraySize; i++) {
-    colorArray[i]='floralwhite';
-}
-sortArray=unsortedArray;
-
   switch(sortType.find(elem=>elem.active ===true).value){
     case 'Bubble':
       iterator = bubbleSort(sortArray,colorArray);
@@ -39,7 +34,7 @@ sortArray=unsortedArray;
       iterator=quicksort(sortArray,0,arraySize,colorArray);
       break;
     case 'Merge':
-      iterator=mergeSort(sortArray,0,arraySize,colorArray);
+      iterator=mergeSort(sortArray,0,arraySize-1,colorArray);
       break;
     case 'Insertion':
         iterator=insertionSort(sortArray,colorArray);
@@ -71,9 +66,8 @@ export function nextClicked(){
 }
 
 export function setSize(x){
-  paused = true;
   arraySize = x;
-  paused = false;
+  initArray();
 }
 
 function initArray() {
@@ -103,12 +97,13 @@ export default function sortingSketch (p){
     p.draw = function (){
         p.background(38, 38, 38);
         p.noStroke(); 
-        speed=sliderVal;
+        speed=speedSliderVal;
         speed=100-speed;
         speed*=12.5;
         barWidth=width/arraySize;     
         for (let i = 0; i < arraySize; i++) {
             p.fill(colorArray[i]);
+            //p.ellipse(i*barWidth,height-sortArray[i]+heightOffset,barWidth,barWidth)
             p.rect(i*barWidth, height-sortArray[i]+heightOffset, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
         }
         p.fill(255);
@@ -364,13 +359,14 @@ export default function sortingSketch (p){
            activeLine =4;     
             yield* mergeSort(arr,middle+1,high,cArray);
            activeLine =5;     
-            console.log(middle)
+            console.log(low)            
+            console.log(high)
+
             yield* merge(arr,low,middle,high,cArray);
         }
-
-
     }
     
+
   
 
   

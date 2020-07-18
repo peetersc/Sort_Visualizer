@@ -15,11 +15,10 @@ import {pauseClicked} from './components/sketch'
 import {setSize} from './components/sketch'
 import Code from './components/Code'
 
-
-//let arraySize = 50;
-let sliderVal = 50;
-//export{arraySize, sliderVal};
-export {sliderVal};
+let speedSliderVal = 50;
+export {speedSliderVal};
+let arraySize=50;
+export {arraySize};
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -241,9 +240,9 @@ export default class Home extends React.Component {
   //gets the slider's speed and sets the slider speed variable to it
   sliderSpeed= () =>{
     var x = document.getElementById("myRange").value;
-    sliderVal = x;
+    speedSliderVal = x;
     if(x>=99)
-      sliderVal=100;    
+      speedSliderVal=100;    
   }
   changeNext(){    
     nextClicked();
@@ -262,7 +261,7 @@ export default class Home extends React.Component {
       size = 10
     }
     
-   document.getElementById("sizeSlide").value = size
+   document.getElementById("sizeSlide").value = size;
   }
   
 
@@ -296,8 +295,8 @@ export default class Home extends React.Component {
         </Button>
       )
     }
-    Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value); this.changeButton(0)}}>Begin Sort</BeginButton>)
-    Buttons.push(<BeginButton primary onClick={() => this.resetSort()}>Reset Sort</BeginButton>)
+    Buttons.push(<BeginButton primary onClick={() => { setSize(document.getElementById("sizeSlide").value);this.changeButton(0)}}>Begin Sort</BeginButton>)
+    //Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value);this.resetSort()}}>Reset Array</BeginButton>) //reset sort button
     Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
       {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
     </BeginButton>)
