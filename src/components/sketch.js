@@ -345,6 +345,7 @@ export default function sortingSketch (p){
             ++j;
             ++middle;
           }
+          comparisons++;
           ++i;
         }
     }
@@ -364,6 +365,7 @@ export default function sortingSketch (p){
 
             yield* merge(arr,low,middle,high,cArray);
         }
+        comparisons++;
     }
     
 
