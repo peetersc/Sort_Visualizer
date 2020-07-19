@@ -150,9 +150,9 @@ export const sortType = [
                 "\t\tPartition(arr, low, high,arr)\n",
                 "\t\tQuickSort(arr, low, p - 1)\n",
                 "\t\tQuickSort(arr, p + 1, high)\n\n",
-                "Partition(arr, low, high, arr):\n",
-                "\tfor j in range(low, high):\n",
+                "Partition(arr, low, high, arr):\n",                
                 "p=low\n",
+                "\tfor j in range(low, high):\n",
                 "\t\tif arr[j] <= arr[high]\n",
                 "\t\t\tswap(arr[j], arr[p])\n",
                 "\t\t\tp++"]
@@ -400,7 +400,7 @@ displayKey(){
                 <box className="Key blue"/>
 
                 <b>
-                    k
+                    i
                 </b>
                 <box className="Key red"/>
                 Unsorted

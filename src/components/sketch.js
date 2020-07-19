@@ -338,7 +338,7 @@ export default function sortingSketch (p){
         activeLine =7;     
         while (i <= middle && j <= high) {
           cArray[i] = 'red';
-          cArray[j] = 'red';
+          cArray[j] = 'blue';
           await sleep(speed);
           flag=true;
           yield;
@@ -352,8 +352,8 @@ export default function sortingSketch (p){
           if (arr[i] > arr[j]) {
           activeLine =9; 
           for (let k = i; k <= j; ++k) {
-              activeLine =10;     
-              swap(arr, k, j);          
+              activeLine =10;
+              swap(arr, k, j);              
             }
             ++j;
             ++middle;
