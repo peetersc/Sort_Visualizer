@@ -151,8 +151,8 @@ export const sortType = [
                 "\t\tQuickSort(arr, low, p - 1)\n",
                 "\t\tQuickSort(arr, p + 1, high)\n\n",
                 "Partition(arr, low, high, arr):\n",
-                "p=low\n",
                 "\tfor j in range(low, high):\n",
+                "p=low\n",
                 "\t\tif arr[j] <= arr[high]\n",
                 "\t\t\tswap(arr[j], arr[p])\n",
                 "\t\t\tp++"]
@@ -338,18 +338,18 @@ export default class Home extends React.Component {
 }
 
 displayKey(){
-      if (this.state.id!==1){
+      if (this.state.id===0){
           return(<div >
 
               <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
 
                   <b>
-                  i
+                  j
                   </b>
                   <box className="Key blue"/>
 
                   <b>
-                      j
+                      j+1
                   </b>
                   <box className="Key maroon"/>
                   Unsorted
@@ -372,7 +372,7 @@ displayKey(){
                 <box className="Key blue"/>
 
                 <b>
-                    i
+                    p
                 </b>
                 <box className="Key red"/>
 
@@ -389,6 +389,72 @@ displayKey(){
 
         </div>)
     }
+
+    else if (this.state.id===2){
+        return(<div >
+            <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+
+                <b>
+                    i
+                </b>
+                <box className="Key blue"/>
+
+                <b>
+                    j
+                </b>
+                <box className="Key red"/>
+                Unsorted
+                <box className="Key floralwhite"/>
+                Sorted
+                <box className="Key DarkSeaGreen"/>
+            </p>
+
+        </div>)
+    }
+
+      else if (this.state.id===3){
+          return(<div >
+              <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+
+                  <b>
+                      j
+                  </b>
+                  <box className="Key blue"/>
+
+                  <b>
+                      j+1
+                  </b>
+                  <box className="Key maroon"/>
+                  Unsorted
+                  <box className="Key floralwhite"/>
+                  Sorted
+                  <box className="Key DarkSeaGreen"/>
+              </p>
+
+          </div>)
+      }
+
+      else if (this.state.id===4){
+          return(<div >
+              <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+
+                  <b>
+                      min
+                  </b>
+                  <box className="Key blue"/>
+
+                  <b>
+                      j
+                  </b>
+                  <box className="Key maroon"/>
+                  Unsorted
+                  <box className="Key floralwhite"/>
+                  Sorted
+                  <box className="Key DarkSeaGreen"/>
+              </p>
+
+          </div>)
+      }
 
 }
 
@@ -409,9 +475,7 @@ displayKey(){
       Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
           {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
       </BeginButton>)
-      Buttons.push(<BeginButton primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
-
-
+      Buttons.push(<BeginButton  primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
       return (
       <Styles>
         <div>
