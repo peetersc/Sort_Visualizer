@@ -31,10 +31,10 @@ export function beginSortClick(){
       iterator = bubbleSort(sortArray,colorArray);
       break;
     case 'Quick':
-      iterator=quicksort(sortArray,0,arraySize,colorArray);
+      iterator=quicksort(sortArray,0,sortArray.length,colorArray);
       break;
     case 'Merge':
-      iterator=mergeSort(sortArray,0,arraySize-1,colorArray);
+      iterator=mergeSort(sortArray,0,sortArray.length-1,colorArray);
       break;
     case 'Insertion':
         iterator=insertionSort(sortArray,colorArray);
