@@ -8,7 +8,7 @@ import {sortType, speedSliderVal} from '../Home'
 let iterator;
 let paused;
 const height = 300
-const width = window.innerWidth / 1.307
+let width
 export let activeLine = 0;
 let barWidth = width / (50);
 let sortArray =[];
@@ -95,13 +95,17 @@ function initArray() {
 export default function sortingSketch (p){
     par=p;
     p.setup =function (){
-        p.createCanvas(width,height+heightOffset);
-        iterator=bubbleSort(sortArray,colorArray);
-        initArray();
+      let doc = window.document;
+      let elem = doc.getElementById("defaultCanvas0");
+      elem = elem.parentElement;
+      width = elem.offsetWidth;
+      p.createCanvas(width,height+heightOffset);
+      iterator=bubbleSort(sortArray,colorArray);
+      initArray();
     };
     p.draw = function (){
         p.background(38, 38, 38);
-        p.noStroke(); 
+        p.noStroke();
         speed=speedSliderVal;
         speed=100-speed;
         speed*=12.5;
