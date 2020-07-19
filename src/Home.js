@@ -4,7 +4,7 @@
   Last Updated: 7/17/20 @ 1:00pm by Cameron
 */
 
-import React, {Component, useState} from 'react'
+import React, {Component, useEffect, useState} from 'react'
 import styled from 'styled-components';
 import P5Wrapper from 'react-p5-wrapper'
 import sketch from './components/sketch'
@@ -59,6 +59,42 @@ const Styles = styled.div`
     background-color: #262626;
   }
   
+  
+.sansserif {
+  font-family: Arial, Helvetica, sans-serif;
+}
+  
+ .Key {
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.05em 1em;
+  border-radius: 3px;
+}
+
+.blue {
+  background: blue;
+}
+
+.maroon {
+  background: maroon;
+}
+
+.floralwhite {
+  background: floralwhite;
+}
+
+.DarkSeaGreen {
+  background: DarkSeaGreen;
+}
+
+.green {
+  background: green;
+}
+
+.red {
+  background: red;
+}
+  
   .content {
     padding: 0 18px;
     display: none;
@@ -93,25 +129,6 @@ const BeginButton = styled.button`
   border-radius: 3px;
 `;
 
-const PauseButton = styled.button`
-  background: ${props => props.primary ? "red": "white"};
-  color: ${props => props.primary ? "white" : "palevioletred"};
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid red;
-  border-radius: 3px;
-`;
-
-const ResumeButton = styled.button`
-  background: ${props => props.primary ? "green": "white"};
-  color: ${props => props.primary ? "white" : "palevioletred"};
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid green;
-  border-radius: 3px;
-`;
 
 export const sortType = [
   {
@@ -183,6 +200,40 @@ export const sortType = [
 
 function sort(id) {
 beginSortClick();
+};
+
+const Timer = (_isActive) => {
+    const [seconds, setSeconds] = useState(0);
+    const [isActive, setIsActive] = useState(false);
+    function toggle() {
+        setIsActive(!isActive);
+    }
+
+    function reset() {
+        setSeconds(0);
+        setIsActive(false);
+    }
+
+    useEffect(() => {
+        let interval = null;
+        if (isActive) {
+            interval = setInterval(() => {
+                setSeconds(seconds => seconds + 1);
+            }, 1000);
+        } else if (!isActive && seconds !== 0) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [isActive, seconds]);
+
+    return (
+        <div className="time" style={{color:'white','padding-left':'15px'}}>
+            <th>
+                {seconds}s
+            </th>
+
+        </div>
+    );
 };
 
 export default class Home extends React.Component {
@@ -283,6 +334,62 @@ export default class Home extends React.Component {
       isPaused: true
     })
 }
+
+displayKey(){
+      if (this.state.id!==1){
+          return(<div >
+
+              <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+
+                  <b>
+                  i
+                  </b>
+                  <box className="Key blue"/>
+
+                  <b>
+                      j
+                  </b>
+                  <box className="Key maroon"/>
+                  Unsorted
+                  <box className="Key floralwhite"/>
+                  Sorted
+                  <box className="Key DarkSeaGreen"/>
+              </p>
+
+          </div>)
+      }
+
+    else if (this.state.id===1){
+        return(<div>
+
+            <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+
+                <b>
+                    Min/Max
+                </b>
+                <box className="Key blue"/>
+
+                <b>
+                    i
+                </b>
+                <box className="Key red"/>
+
+                <b>
+                    j
+                </b>
+                <box className="Key maroon"/>
+
+                Unsorted
+                <box className="Key floralwhite"/>
+                Sorted
+                <box className="Key DarkSeaGreen"/>
+            </p>
+
+        </div>)
+    }
+
+}
+
   render() {
     //Creates buttons based off the number of different sorts along with Begin Sort Button
     const Buttons = []
@@ -295,13 +402,13 @@ export default class Home extends React.Component {
         </Button>
       )
     }
-    Buttons.push(<BeginButton primary onClick={() => { setSize(document.getElementById("sizeSlide").value);this.changeButton(0)}}>Begin Sort</BeginButton>)
-    Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value);this.resetSort()}}>Reset Array</BeginButton>) //reset sort button
-    Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
-      {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
-    </BeginButton>)
-    Buttons.push(<BeginButton  primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
-    return (
+      Buttons.push(<BeginButton primary onClick={() => { setSize(document.getElementById("sizeSlide").value);this.changeButton(0)}}>Begin Sort</BeginButton>)
+      Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value);this.resetSort()}}>Reset Array</BeginButton>) //reset sort button
+      Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
+          {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
+      </BeginButton>)
+
+      return (
       <Styles>
         <div>
           {Buttons}
@@ -324,8 +431,14 @@ export default class Home extends React.Component {
                 <input type="range" id="sizeSlide" min="10" max="150" onChange ={() => {document.getElementById("textArraySize").value=document.getElementById("sizeSlide").value;}} />
               </td>
             </tr>
-          </table>          
+              {/*<tr>*/}
+              {/*    <td>*/}
+              {/*        <Timer _isActive={this.state.isActive}/>*/}
+              {/*    </td>*/}
+              {/*</tr>*/}
+          </table>
           <P5Wrapper sketch={this.state.stateSketch}></P5Wrapper>
+            {this.displayKey()}
           <button type="button" class="collapsible" onClick={() => this.handleCollapsible()}>
             Pseudocode {this.state.showPsuedo ? <i className="fa fa-caret-up"></i> : <i className="fa fa-caret-down"></i>}
           </button>
