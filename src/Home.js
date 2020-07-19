@@ -395,12 +395,12 @@ displayKey(){
             <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
 
                 <b>
-                    i
+                    j
                 </b>
                 <box className="Key blue"/>
 
                 <b>
-                    j
+                    k
                 </b>
                 <box className="Key red"/>
                 Unsorted
