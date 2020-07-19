@@ -21,7 +21,7 @@ let speed;
 let par;
 let heightOffset = 50;
 let comparisons = 0;
-let arrayAccesses = 0;
+let swapCount = 0;
 let flag;
 let arraySize=50;
 
@@ -29,10 +29,10 @@ export function beginSortClick(){
   for (let i = 0; i < colorArray.length; i++) {
     colorArray[i]= 'floralwhite';
 }
-
   switch(sortType.find(elem=>elem.active ===true).value){
     case 'Bubble':
       iterator = bubbleSort(sortArray,colorArray);
+      console.log('b')
       break;
     case 'Quick':
       iterator=quicksort(sortArray,0,sortArray.length,colorArray);
@@ -49,6 +49,9 @@ export function beginSortClick(){
   }                
   paused=false;
   par.redraw();
+  flag=true;
+  comparisons=0;
+  swapCount=0;
 }
 
 export function typeClicked(){
@@ -85,9 +88,9 @@ function initArray() {
             colorArray[i]='floralwhite';
         }
         paused=true;
-        // Reset comparisons and arrayAccesses
+        // Reset comparisons and swapCount
         comparisons=0;
-        arrayAccesses=0;
+        swapCount=0;
         flag=true;
 }
 export default function sortingSketch (p){
@@ -110,15 +113,13 @@ export default function sortingSketch (p){
             p.rect(i*barWidth, height-sortArray[i]+heightOffset, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
         }
         p.fill(255);
-        p.text('Swaps: ' + arrayAccesses, 0, 20);
+        p.text('Swaps: ' + swapCount, 0, 20);
         p.text('Comparisons: ' + comparisons, 0, 40);
         if(!paused&&flag){
           flag=false;
           iterator.next();
         } 
     
-    }
-    function callNext(){
     }
 }    
     const sleep = (milliseconds) => {
@@ -127,6 +128,7 @@ export default function sortingSketch (p){
 
     async function* bubbleSort(arr,cArray) {
       //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
+      console.log('bub')
       activeLine = 1;        
         for (let i = arr.length-1; i > 0; i--) {
           activeLine = 2;        
@@ -246,7 +248,7 @@ export default function sortingSketch (p){
             cArray[j] = 'maroon';
             
             //set the sorted items to their own color
-            cArray[j] = 'DarkSeaGreen';
+            cArray[j] = 'floralwhite';
             activeLine = 5;
             swap(cArray, i--, j--);
             // Increment Comparisons
@@ -254,17 +256,26 @@ export default function sortingSketch (p){
           }
           
           //reset anything i overrode back to the sorted color
-          cArray[i]='DarkSeaGreen'
+          cArray[i]='floralwhite'
           activeLine = 0;
 
+        } 
+        for (let c = 0; c <= arr.length-2; ++c) {
+          cArray[c]='DarkSeaGreen'
+          cArray[c+1]='red'
+          if(c===arr.length-2)
+            cArray[c+1]='DarkSeaGreen'
+          flag=true;
+          yield;
         }
+
     }
 
     async function swap(arr, a, b) {
         let temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
-        arrayAccesses++;
+        swapCount++;
     }
 
 
@@ -338,12 +349,16 @@ export default function sortingSketch (p){
           yield;
           cArray[i] =  'floralwhite';
           cArray[j] =  'floralwhite';
+          if(low===0&&high===arr.length-1)
+          {
+            cArray[i]='DarkSeaGreen'
+          }
           activeLine =8;     
           if (arr[i] > arr[j]) {
-          activeLine =9;     
+          activeLine =9; 
           for (let k = i; k <= j; ++k) {
               activeLine =10;     
-              swap(arr, k, j);
+              swap(arr, k, j);          
             }
             ++j;
             ++middle;
@@ -351,6 +366,12 @@ export default function sortingSketch (p){
           comparisons++;
           ++i;
         }
+        if(low===0&&high===arr.length-1)
+          {
+              for (let c = 0; c < cArray.length; c++) 
+                cArray[c]='DarkSeaGreen'
+          }
+        
     }
     async function* mergeSort(arr,low,high,cArray){ 
         activeLine =1;     
@@ -363,9 +384,6 @@ export default function sortingSketch (p){
            activeLine =4;     
             yield* mergeSort(arr,middle+1,high,cArray);
            activeLine =5;     
-            console.log(low)            
-            console.log(high)
-
             yield* merge(arr,low,middle,high,cArray);
         }
         comparisons++;
