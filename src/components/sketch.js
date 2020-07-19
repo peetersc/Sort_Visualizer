@@ -226,13 +226,11 @@ export default function sortingSketch (p){
 
     async function * insertionSort(arr,cArray) {
       //set the first element to the sorted color
-      cArray[0] = 'DarkSeaGreen';
-
       activeLine = 1;
       for (let i = 1; i < arr.length; ++i) {
           let j = i - 1;
           activeLine = 4;
-          while (j >= 0 && arr[j] > arr[i]) {
+          for (let nothing;j >= 0 && arr[j] > arr[i];comparisons++) {
             //set i and j to their own colors, then do a quick pause
             cArray[i] = 'blue';
             cArray[j] = 'maroon';
@@ -263,6 +261,7 @@ export default function sortingSketch (p){
           cArray[c+1]='red'
           if(c===arr.length-2)
             cArray[c+1]='DarkSeaGreen'
+          comparisons++;
           flag=true;
           yield;
         }
