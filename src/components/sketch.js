@@ -26,6 +26,10 @@ let flag;
 let arraySize=50;
 
 export function beginSortClick(){ 
+  for (let i = 0; i < colorArray.length; i++) {
+    colorArray[i]= 'floralwhite';
+}
+
   switch(sortType.find(elem=>elem.active ===true).value){
     case 'Bubble':
       iterator = bubbleSort(sortArray,colorArray);
@@ -67,7 +71,6 @@ export function nextClicked(){
 
 export function setSize(x){
   arraySize = x;
-  initArray();
 }
 
 function initArray() {
@@ -100,8 +103,8 @@ export default function sortingSketch (p){
         speed=speedSliderVal;
         speed=100-speed;
         speed*=12.5;
-        barWidth=width/arraySize;     
-        for (let i = 0; i < arraySize; i++) {
+        barWidth=width/sortArray.length;     
+        for (let i = 0; i < sortArray.length; i++) {
             p.fill(colorArray[i]);
             //p.ellipse(i*barWidth,height-sortArray[i]+heightOffset,barWidth,barWidth)
             p.rect(i*barWidth, height-sortArray[i]+heightOffset, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
