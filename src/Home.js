@@ -296,7 +296,7 @@ export default class Home extends React.Component {
       )
     }
     Buttons.push(<BeginButton primary onClick={() => { setSize(document.getElementById("sizeSlide").value);this.changeButton(0)}}>Begin Sort</BeginButton>)
-    //Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value);this.resetSort()}}>Reset Array</BeginButton>) //reset sort button
+    Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value);this.resetSort()}}>Reset Array</BeginButton>) //reset sort button
     Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
       {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
     </BeginButton>)
