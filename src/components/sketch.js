@@ -175,9 +175,9 @@ export default function sortingSketch (p){
     async function* partition(arr, low, high,cArray) {
       var pivot = arr[high - 1];
       piv = low;
-      activeLine = 5;
+      activeLine = 6;
       for (let j = low; j < high; j++) {
-        activeLine = 6;
+        activeLine = 7;
 
         //initialize the starying and ending points with the same color
         for (let i = 0; i < sortArray.length; i++) {
@@ -193,14 +193,12 @@ export default function sortingSketch (p){
         await sleep(speed)
         flag=true;             
         yield;
-        activeLine = 7;
+        activeLine = 8;
 
         if (arr[j] < pivot) {
           //quick pause before the swap
-          activeLine = 8;
+          activeLine = 9;
           swap(arr, piv, j);
-          //swap the colors to show the swap, then do a quick pause
-          //swap j back, set the pivot to neutral, and set a new pivot
           piv++
         }
         // Increment Comparisons

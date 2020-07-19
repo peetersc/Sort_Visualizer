@@ -148,12 +148,14 @@ export const sortType = [
     pseudocode: ["QuickSort(arr, low, high): \n",
                 "\tif(low < high)\n",
                 "\t\tPartition(arr, low, high,arr)\n",
-                "\t\tQuickSort(arr, low, pivot - 1)\n",
-                "\t\tQuickSort(arr, pivot + 1, high)\n\n",
+                "\t\tQuickSort(arr, low, p - 1)\n",
+                "\t\tQuickSort(arr, p + 1, high)\n\n",
                 "Partition(arr, low, high, arr):\n",
+                "p=low\n",
                 "\tfor j in range(low, high):\n",
                 "\t\tif arr[j] <= arr[high]\n",
-                "\t\t\tswap(arr[j], arr[high])\n"]
+                "\t\t\tswap(arr[j], arr[p])\n",
+                "\t\t\tp++"]
   },
   {
     id: 2,
