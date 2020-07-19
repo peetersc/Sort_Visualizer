@@ -409,6 +409,8 @@ displayKey(){
       Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
           {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
       </BeginButton>)
+      Buttons.push(<BeginButton primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
+
 
       return (
       <Styles>
