@@ -32,7 +32,6 @@ export function beginSortClick(){
   switch(sortType.find(elem=>elem.active ===true).value){
     case 'Bubble':
       iterator = bubbleSort(sortArray,colorArray);
-      console.log('b')
       break;
     case 'Quick':
       iterator=quicksort(sortArray,0,sortArray.length,colorArray);
@@ -128,7 +127,6 @@ export default function sortingSketch (p){
 
     async function* bubbleSort(arr,cArray) {
       //can go 0 to 1250. 100-speed because speed works with sleeps so its inverted
-      console.log('bub')
       activeLine = 1;        
         for (let i = arr.length-1; i > 0; i--) {
           activeLine = 2;        
