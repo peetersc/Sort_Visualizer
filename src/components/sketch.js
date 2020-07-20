@@ -81,9 +81,10 @@ function initArray() {
   unsortedArray = new Array(arraySize);
   let heightMin = 10;
   for (let i = 0; i < arraySize; i++) {
-    let rectHight = Math.floor(Math.random() * (height - heightMin) + heightMin);
-    sortArray[i] = rectHight;
-    unsortedArray[i] = rectHight;
+    //let rectHight = Math.floor(Math.random() * (height - heightMin) + heightMin);
+    let rectHeight
+    sortArray[i] = rectHeight;
+    unsortedArray[i] = rectHeight;
     colorArray[i] = 'floralwhite';
   }
   paused = true;
