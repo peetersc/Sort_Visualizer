@@ -10,7 +10,6 @@ Repository for CSE115a - Introduction to Software Engineering - UC Santa Cruz. O
 * Alex Lee
 * Julian Shalaby
 * Cameron Peeters
-* Luciano Ornellana
 
 ## Librarys
   * **React:** `npm install react --save`
