@@ -4,21 +4,21 @@
   Last Updated: 7/17/20 @ 1:00pm by Cameron
 */
 
-import React, {Component, useEffect, useState} from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import styled from 'styled-components';
 import P5Wrapper from 'react-p5-wrapper'
 import sketch from './components/sketch'
-import {beginSortClick} from './components/sketch'
-import {typeClicked} from './components/sketch'
-import {nextClicked} from './components/sketch'
-import {pauseClicked} from './components/sketch'
-import {setSize} from './components/sketch'
+import { beginSortClick } from './components/sketch'
+import { typeClicked } from './components/sketch'
+import { nextClicked } from './components/sketch'
+import { pauseClicked } from './components/sketch'
+import { setSize } from './components/sketch'
 import Code from './components/Code'
 
 let speedSliderVal = 50;
-export {speedSliderVal};
-let arraySize=50;
-export {arraySize};
+export { speedSliderVal };
+let arraySize = 50;
+export { arraySize };
 const Styles = styled.div`
   .off{
     background: burlywood;
@@ -113,7 +113,7 @@ const Button = styled.button`
 
 
 const BeginButton = styled.button`
-  background: ${props => props.primary ? "mediumseagreen": "white"};
+  background: ${props => props.primary ? "mediumseagreen" : "white"};
   color: ${props => props.primary ? "white" : "palevioletred"};
   font-size: 1em;
   margin: 1em;
@@ -170,7 +170,7 @@ export const sortType = [
         id: 3,
         value: 'Insertion',
         active: false,
-        pseudocode:  ["InsertionSort(arr):\n",
+        pseudocode: ["InsertionSort(arr):\n",
             "\tfor i in range(1, len(arr))\n",
             "\t\tkey = arr[i]\n",
             "\t\tj = i - 1\n",
@@ -205,7 +205,7 @@ export default class Home extends React.Component {
         isActive: false,
         controlButton: 0,
         showPsuedo: false,
-        stateSketch:sketch,
+        stateSketch: sketch,
         isPaused: false,
     };
 
@@ -223,19 +223,19 @@ export default class Home extends React.Component {
     }
 
     //once begin is pressed, this will change into a pause/resume button. (need help)
-    changeButton(val){
-        if(val===0){
+    changeButton(val) {
+        if (val === 0) {
             sort(this.state.id)
-            val=1
+            val = 1
         }
         this.setState({
-            controlButton : val,
+            controlButton: val,
             isPaused: true
         })
     }
 
     //Changes the current state of the page to the active button clicked
-    changeState = (_id) =>{
+    changeState = (_id) => {
         //Switches active state to false and finds current id adn sets active
         sortType.find(x => x.active === true).active = false;
         sortType.find(x => x.id === _id).active = true;
@@ -250,26 +250,26 @@ export default class Home extends React.Component {
     }
 
     //gets the slider's speed and sets the slider speed variable to it
-    sliderSpeed= () =>{
+    sliderSpeed = () => {
         var x = document.getElementById("myRange").value;
         speedSliderVal = x;
-        if(x>=99)
-            speedSliderVal=100;
+        if (x >= 99)
+            speedSliderVal = 100;
     }
-    changeNext(){
+    changeNext() {
         nextClicked();
     }
 
-    updateSizeSlider = () =>{
+    updateSizeSlider = () => {
         var size = parseInt(document.getElementById("textArraySize").value);
 
-        if(size.isNan){
+        if (size.isNan) {
             return;
         }
-        else if(size>150){
+        else if (size > 150) {
             size = 150
         }
-        else if(size<10){
+        else if (size < 10) {
             size = 10
         }
 
@@ -277,7 +277,7 @@ export default class Home extends React.Component {
     }
 
 
-    changePause(){
+    changePause() {
         if (this.state.isPaused) {
             this.setState({
                 isPaused: false
@@ -289,127 +289,127 @@ export default class Home extends React.Component {
         }
         pauseClicked();
     }
-    resetSort(){
+    resetSort() {
         typeClicked();
         this.setState({
             isPaused: true
         })
     }
 
-    displayKey(){
-        if (this.state.id===0){
-            return(<div >
+    displayKey() {
+        if (this.state.id === 0) {
+            return (<div >
 
-                <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+                <p className="sansserif" style={{ color: "white", 'padding-left': '5px', 'padding-top': '5px' }}>
 
                     <b>
                         j
                     </b>
-                    <box className="Key blue"/>
+                    <box className="Key blue" />
 
                     <b>
                         j+1
                     </b>
-                    <box className="Key maroon"/>
+                    <box className="Key maroon" />
                     Unsorted
-                    <box className="Key floralwhite"/>
+                    <box className="Key floralwhite" />
                     Sorted
-                    <box className="Key DarkSeaGreen"/>
+                    <box className="Key DarkSeaGreen" />
                 </p>
 
             </div>)
         }
 
-        else if (this.state.id===1){
-            return(<div>
+        else if (this.state.id === 1) {
+            return (<div>
 
-                <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+                <p className="sansserif" style={{ color: "white", 'padding-left': '5px', 'padding-top': '5px' }}>
 
                     <b>
                         Low/High
                     </b>
-                    <box className="Key blue"/>
+                    <box className="Key blue" />
 
                     <b>
                         p
                     </b>
-                    <box className="Key red"/>
+                    <box className="Key red" />
 
                     <b>
                         j
                     </b>
-                    <box className="Key maroon"/>
+                    <box className="Key maroon" />
 
                     Unsorted
-                    <box className="Key floralwhite"/>
+                    <box className="Key floralwhite" />
                     Sorted
-                    <box className="Key DarkSeaGreen"/>
+                    <box className="Key DarkSeaGreen" />
                 </p>
 
             </div>)
         }
 
-        else if (this.state.id===2){
-            return(<div >
-                <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+        else if (this.state.id === 2) {
+            return (<div >
+                <p className="sansserif" style={{ color: "white", 'padding-left': '5px', 'padding-top': '5px' }}>
 
                     <b>
                         j
                     </b>
-                    <box className="Key blue"/>
+                    <box className="Key blue" />
 
                     <b>
                         i
                     </b>
-                    <box className="Key red"/>
+                    <box className="Key red" />
                     Unsorted
-                    <box className="Key floralwhite"/>
+                    <box className="Key floralwhite" />
                     Sorted
-                    <box className="Key DarkSeaGreen"/>
+                    <box className="Key DarkSeaGreen" />
                 </p>
 
             </div>)
         }
 
-        else if (this.state.id===3){
-            return(<div >
-                <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+        else if (this.state.id === 3) {
+            return (<div >
+                <p className="sansserif" style={{ color: "white", 'padding-left': '5px', 'padding-top': '5px' }}>
 
                     <b>
                         j
                     </b>
-                    <box className="Key blue"/>
+                    <box className="Key blue" />
 
                     <b>
                         j+1
                     </b>
-                    <box className="Key maroon"/>
+                    <box className="Key maroon" />
                     Unsorted
-                    <box className="Key floralwhite"/>
+                    <box className="Key floralwhite" />
                     Sorted
-                    <box className="Key DarkSeaGreen"/>
+                    <box className="Key DarkSeaGreen" />
                 </p>
 
             </div>)
         }
 
-        else if (this.state.id===4){
-            return(<div >
-                <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
+        else if (this.state.id === 4) {
+            return (<div >
+                <p className="sansserif" style={{ color: "white", 'padding-left': '5px', 'padding-top': '5px' }}>
 
                     <b>
                         min
                     </b>
-                    <box className="Key blue"/>
+                    <box className="Key blue" />
 
                     <b>
                         j
                     </b>
-                    <box className="Key maroon"/>
+                    <box className="Key maroon" />
                     Unsorted
-                    <box className="Key floralwhite"/>
+                    <box className="Key floralwhite" />
                     Sorted
-                    <box className="Key DarkSeaGreen"/>
+                    <box className="Key DarkSeaGreen" />
                 </p>
 
             </div>)
@@ -420,41 +420,41 @@ export default class Home extends React.Component {
     render() {
         //Creates buttons based off the number of different sorts along with Begin Sort Button
         const Buttons = []
-        const code = <Code/>;
-        for (const[index, value] of sortType.entries()){
+        const code = <Code />;
+        for (const [index, value] of sortType.entries()) {
             Buttons.push(
-                <Button  onClick={() => this.changeState(index)}
-                         className={this.state.id === sortType[index].id ? "Button on" : " off"}>
+                <Button onClick={() => this.changeState(index)}
+                    className={this.state.id === sortType[index].id ? "Button on" : " off"}>
                     {sortType[index].value}
                 </Button>
             )
         }
-        Buttons.push(<BeginButton primary onClick={() => { setSize(document.getElementById("sizeSlide").value);this.changeButton(0)}}>Begin Sort</BeginButton>)
-        Buttons.push(<BeginButton primary onClick={() => {setSize(document.getElementById("sizeSlide").value);this.resetSort()}}>Reset Array</BeginButton>) //reset sort button
+        Buttons.push(<BeginButton primary onClick={() => { setSize(document.getElementById("sizeSlide").value); this.changeButton(0) }}>Begin Sort</BeginButton>)
+        Buttons.push(<BeginButton primary onClick={() => { setSize(document.getElementById("sizeSlide").value); this.resetSort() }}>Reset Array</BeginButton>) //reset sort button
         Buttons.push(<BeginButton primary onClick={() => this.changePause()}>
             {<i className={this.state.isPaused ? "fa fa-pause" : "fa fa-play"}></i>}
         </BeginButton>)
-        Buttons.push(<BeginButton  primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
+        Buttons.push(<BeginButton primary onClick={() => this.changeNext()}><i className="fa fa-arrow-right"></i></BeginButton>)
         return (
             <Styles>
                 <div>
                     {Buttons}
                     <table>
                         <tr>
-                            <th style={{color:'white','padding-left':'15px'}}>
+                            <th style={{ color: 'white', 'padding-left': '15px' }}>
                                 Speed:
                             </th>
-                            <th style={{color:'white','padding-left':'15px'}}>
+                            <th style={{ color: 'white', 'padding-left': '15px' }}>
                                 Array Size (10-150):&nbsp;
-                                <input type="text" id = "textArraySize" size="4" maxlength="3" onChange ={() => this.updateSizeSlider()}></input>
+                                <input type="text" id="textArraySize" size="4" maxlength="3" onChange={() => this.updateSizeSlider()}></input>
                             </th>
                         </tr>
                         <tr>
-                            <td style={{'padding-left':'15px'}}>
-                                <input type="range" id="myRange" onChange={() => this.sliderSpeed()}/>
+                            <td style={{ 'padding-left': '15px' }}>
+                                <input type="range" id="myRange" onChange={() => this.sliderSpeed()} />
                             </td>
-                            <td style={{'padding-left':'15px'}}>
-                                <input type="range" id="sizeSlide" min="10" max="150" onChange ={() => {document.getElementById("textArraySize").value=document.getElementById("sizeSlide").value;}} />
+                            <td style={{ 'padding-left': '15px' }}>
+                                <input type="range" id="sizeSlide" min="10" max="150" onChange={() => { document.getElementById("textArraySize").value = document.getElementById("sizeSlide").value; }} />
                             </td>
                         </tr>
                     </table>
@@ -463,7 +463,7 @@ export default class Home extends React.Component {
                     <button type="button" class="collapsible" onClick={() => this.handleCollapsible()}>
                         Pseudocode {this.state.showPsuedo ? <i className="fa fa-caret-up"></i> : <i className="fa fa-caret-down"></i>}
                     </button>
-                    {this.state.showPsuedo ? code : null }
+                    {this.state.showPsuedo ? code : null}
                 </div>
             </Styles>
         );
