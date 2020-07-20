@@ -326,7 +326,7 @@ export default class Home extends React.Component {
                 <p className="sansserif" style={{color: "white", 'padding-left':'5px', 'padding-top':'5px'}}>
 
                     <b>
-                        Min/Max
+                        Low/High
                     </b>
                     <box className="Key blue"/>
 

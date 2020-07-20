@@ -249,8 +249,7 @@ export default function sortingSketch (p){
             cArray[j] = 'floralwhite';
             activeLine = 5;
             swap(cArray, i--, j--);
-            // Increment Comparisons
-            comparisons++;
+            swapCount--;
           }
           
           //reset anything i overrode back to the sorted color
