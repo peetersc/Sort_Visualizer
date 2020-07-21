@@ -176,9 +176,9 @@ export default function sortingSketch (p){
     async function* partition(arr, low, high,cArray) {
       var pivot = arr[high - 1];
       piv = low;
-      activeLine = 5;
+      activeLine = 6;
       for (let j = low; j < high; j++) {
-        activeLine = 6;
+        activeLine = 7;
 
         //initialize the starying and ending points with the same color
         for (let i = 0; i < sortArray.length; i++) {
@@ -193,12 +193,12 @@ export default function sortingSketch (p){
         //sleep before begin the iteration
         await sleep(speed*.25)
         yield;
-        activeLine = 7;
+        activeLine = 8;
 
         if (arr[j] < pivot) {
           //quick pause before the swap
           await sleep(speed*.25)
-          activeLine = 8;
+          activeLine = 9;
           swap(arr, piv, j);
           //swap the colors to show the swap, then do a quick pause
           await sleep(speed*.25)
@@ -211,6 +211,7 @@ export default function sortingSketch (p){
       swap(arr, piv, high - 1)
       cArray[piv]='DarkSeaGreen';
     }
+
     async function* quicksort(arr, low, high,cArray) {
       activeLine = 1;
       if (low < high) {
@@ -222,7 +223,6 @@ export default function sortingSketch (p){
         yield* quicksort(arr, piv + 1, high,cArray)
       }
       activeLine = 0;
-
     }
 
 
