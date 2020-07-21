@@ -258,6 +258,7 @@ export default class Home extends React.Component {
     }
     changeNext() {
         nextClicked();
+        this.state.isPaused=true;
     }
 
     updateSizeSlider = () => {
