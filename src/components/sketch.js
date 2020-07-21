@@ -1,8 +1,8 @@
 
 /*
   sketch.js: Main sorting animation view
-  Alex: Responsible for animation
-  Last Updated: 7/9/20 @ 4:00pm by Alex
+  Alex: Responsible 90% of code here
+  Last Updated: 7/20/20 @ 4:00pm by Alex
 */
 import { sortType, speedSliderVal } from '../Home'
 let iterator;
@@ -112,7 +112,6 @@ export default function sortingSketch(p) {
     barWidth = width / sortArray.length;
     for (let i = 0; i < sortArray.length; i++) {
       p.fill(colorArray[i]);
-      //p.ellipse(i*barWidth,height-sortArray[i]+heightOffset,barWidth,barWidth)
       p.rect(i * barWidth, height - sortArray[i] + heightOffset, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
     }
     p.fill(255);
@@ -192,7 +191,7 @@ async function* partition(arr, low, high, cArray) {
     cArray[j] = 'maroon';
 
     //sleep before begin the iteration
-    await sleep(speed)
+    await sleep(speed);
     flag = true;
     yield;
 
