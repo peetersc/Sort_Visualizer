@@ -95,6 +95,10 @@ const Styles = styled.div`
     overflow: hidden;
     background-color: #f1f1f1;
   }
+
+  .footer{
+      padding-bottom: 50px;
+  }
 `;
 
 const Button = styled.button`
@@ -144,7 +148,7 @@ export const sortType = [
             "\t\tQuickSort(arr, low, p - 1)\n",
             "\t\tQuickSort(arr, p + 1, high)\n\n",
             "Partition(arr, low, high, arr):\n",
-            "p=low\n",
+            "\tp=low\n",
             "\tfor j in range(low, high):\n",
             "\t\tif arr[j] <= arr[high]\n",
             "\t\t\tswap(arr[j], arr[p])\n",
@@ -161,7 +165,7 @@ export const sortType = [
             "\t\tMergeSort(arr, middle + 1, right)\n",
             "\t\tMerge(arr, middle + 1, right)\n",
             "Merge(arr, low, middle, high, arr):\n",
-            "\twhile i <= middle and j <= high):\n",
+            "\twhile (i <= middle and j <= high):\n",
             "\t\tif arr[i] > arr[j]:\n",
             "\t\t\tfor k = i in j:\n",
             "\t\t\t\tswap(arr, k, j);"]
@@ -464,6 +468,7 @@ export default class Home extends React.Component {
                         Pseudocode {this.state.showPsuedo ? <i className="fa fa-caret-up"></i> : <i className="fa fa-caret-down"></i>}
                     </button>
                     {this.state.showPsuedo ? code : null}
+                    <div className="footer" />
                 </div>
             </Styles>
         );

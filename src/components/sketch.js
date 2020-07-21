@@ -179,10 +179,8 @@ async function* bubbleSort(arr, cArray) {
 async function* partition(arr, low, high, cArray) {
   var pivot = arr[high - 1];
   piv = low;
-  activeLine = 6;
+  activeLine = 7;
   for (let j = low; j < high; j++) {
-    activeLine = 7;
-
     //initialize the starying and ending points with the same color
     for (let i = 0; i < sortArray.length; i++) {
       if (cArray[i] === 'red' || cArray[i] === 'maroon')
@@ -197,8 +195,8 @@ async function* partition(arr, low, high, cArray) {
     await sleep(speed)
     flag = true;
     yield;
-    activeLine = 8;
 
+    activeLine = 8
     if (arr[j] < pivot) {
       //quick pause before the swap
       activeLine = 9;
@@ -216,9 +214,7 @@ async function* quicksort(arr, low, high, cArray) {
   if (low < high) {
     activeLine = 2;
     yield* partition(arr, low, high, cArray)
-    activeLine = 3;
     yield* quicksort(arr, low, piv, cArray)
-    activeLine = 4;
     yield* quicksort(arr, piv + 1, high, cArray)
   }
   activeLine = 0;
@@ -383,6 +379,7 @@ async function* mergeSort(arr, low, high, cArray) {
     yield* merge(arr, low, middle, high, cArray);
   }
   comparisons++;
+  activeLine = 0;
 }
 
 
