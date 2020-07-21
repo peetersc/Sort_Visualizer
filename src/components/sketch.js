@@ -327,6 +327,7 @@ async function* selectionSort(arr, cArray) {                              // min
     // Current element is correctly sorted
     cArray[i] = 'DarkSeaGreen';
   }
+  activeLine = 0;
 }
 
 
