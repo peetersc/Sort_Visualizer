@@ -1,7 +1,9 @@
 /*
-  Code.js: Commponent for displaying Pseudocode
-  Cameron: Responsible for Code.js
+  Home.js: Main landing page
+  Cameron: Responsible for GUI -- Header(Jumbotron), Buttons, Styles, Pseudocode
   Last Updated: 7/17/20 @ 1:00pm by Cameron
+  Update: added comments and refactoring
+  Bugs: The Pseudocode activeLines sometimes changes when paused 
 */
 
 import React, {Component} from 'react'
@@ -9,13 +11,14 @@ import styled from 'styled-components';
 import {activeLine} from './sketch'
 import {sortType, sliderVal} from '../Home'
 
-//CSS for default style and the selected active line
+
 const Styles = styled.div`
  *{
      color: #efefef;
      font-size: 15px;
  }
-
+ .container{
+ }
  .activeLine{
     width: 500px;
      color: black;
@@ -26,7 +29,6 @@ const Styles = styled.div`
 `;
 
 class Code extends Component{
-
     constructor(props){
         super(props)
         this.state = {
@@ -34,7 +36,7 @@ class Code extends Component{
         }
     }
 
-    //getCode(): returns the list of Pseudocode from the active sort
+    //getCode(): returns a list of lines from the active sorting algorithm with acitveLine highlighted
     getCode(){
         let activeCode = sortType.find(x => x.active === true).pseudocode;
         let returnCode = []
@@ -51,32 +53,33 @@ class Code extends Component{
     }
 
     render(){
-        //Finds the current running sorting algorithm
         let activeSort = sortType.find(x => x.active === true);
 
-        //Creates a list of Pseudocode for each different sorting algorithm
+        //creates a list of all Pseudocode for each sortType
         const Pseudocode = []
         for (const[index, value] of sortType.entries()){
           Pseudocode.push(
+          <div className="">
+          {/* <p className="Pseudocode">Function: {sortType[index].value + "Sort()"}</p> */}
           <pre className="Pseudocode">
             <code>
               {this.getCode()}
             </code>
           </pre>
-          )
+        </div>)
         }
 
         return(
             <Styles>
                 <div>
-                    {/*Prints the pseudocode for current sort Type*/}
+                    {/*Prints the active sort's Pseudocode */}
                     {Pseudocode[activeSort.id]}
                 </div>
             </Styles>
         )
     }
 
-    //updates the state of the active line
+    //Updates activeLine state
     componentDidMount(){
         this.myInterval = setInterval(()=>{
             this.setState(prevState => ({
