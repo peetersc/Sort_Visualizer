@@ -15,7 +15,7 @@ import {sortType, sliderVal} from '../Home'
 const Styles = styled.div`
  *{
      color: #efefef;
-     font-sixe: 15px;
+     font-size: 15px;
  }
  .container{
  }

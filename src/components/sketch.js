@@ -1,8 +1,8 @@
 
 /*
   sketch.js: Main sorting animation view
-  Alex: Responsible 90% of code here
-  Last Updated: 7/20/20 @ 4:00pm by Alex
+  Alex: Responsible for animation
+  Last Updated: 7/9/20 @ 4:00pm by Alex
 */
 import { sortType, speedSliderVal } from '../Home'
 let iterator;
@@ -112,6 +112,7 @@ export default function sortingSketch(p) {
     barWidth = width / sortArray.length;
     for (let i = 0; i < sortArray.length; i++) {
       p.fill(colorArray[i]);
+      //p.ellipse(i*barWidth,height-sortArray[i]+heightOffset,barWidth,barWidth)
       p.rect(i * barWidth, height - sortArray[i] + heightOffset, barWidth, sortArray[i]);//rectangle(starting x coordinate from the bottom of canvas,starting y coord, width of rect, height )
     }
     p.fill(255);
@@ -178,10 +179,9 @@ async function* bubbleSort(arr, cArray) {
 async function* partition(arr, low, high, cArray) {
   var pivot = arr[high - 1];
   piv = low;
-  activeLine = 6;
+  activeLine = 7;
   for (let j = low; j < high; j++) {
-    activeLine = 7;
-    //reset 
+    //initialize the starying and ending points with the same color
     for (let i = 0; i < sortArray.length; i++) {
       if (cArray[i] === 'red' || cArray[i] === 'maroon')
         cArray[i] = 'floralwhite'
@@ -192,11 +192,11 @@ async function* partition(arr, low, high, cArray) {
     cArray[j] = 'maroon';
 
     //sleep before begin the iteration
-    await sleep(speed);
+    await sleep(speed)
     flag = true;
     yield;
-    activeLine = 8;
 
+    activeLine = 8
     if (arr[j] < pivot) {
       //quick pause before the swap
       activeLine = 9;
@@ -214,9 +214,7 @@ async function* quicksort(arr, low, high, cArray) {
   if (low < high) {
     activeLine = 2;
     yield* partition(arr, low, high, cArray)
-    activeLine = 3;
     yield* quicksort(arr, low, piv, cArray)
-    activeLine = 4;
     yield* quicksort(arr, piv + 1, high, cArray)
   }
   activeLine = 0;
@@ -329,6 +327,7 @@ async function* selectionSort(arr, cArray) {                              // min
     // Current element is correctly sorted
     cArray[i] = 'DarkSeaGreen';
   }
+  activeLine = 0;
 }
 
 
@@ -381,6 +380,7 @@ async function* mergeSort(arr, low, high, cArray) {
     yield* merge(arr, low, middle, high, cArray);
   }
   comparisons++;
+  activeLine = 0;
 }
 
 
